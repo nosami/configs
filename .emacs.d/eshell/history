@@ -1,0 +1,4 @@
+ll
+ls -l
+vim
+mono /Users/jason/.vim/bundle/Omnisharp/server/OmniSharp/bin/Debug/OmniSharp.exe -p 2000 -v  -s /Users/jason/.vim/bundle/Omnisharp/server/OmniSharp.sln

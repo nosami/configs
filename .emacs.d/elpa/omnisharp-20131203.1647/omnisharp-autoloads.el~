@@ -1,0 +1,13 @@
+;;; omnisharp-autoloads.el --- automatically extracted autoloads
+;;
+;;; Code:
+
+
+(provide 'omnisharp-autoloads)
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; no-update-autoloads: t
+;; coding: utf-8
+;; End:
+;;; omnisharp-autoloads.el ends here
