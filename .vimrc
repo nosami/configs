@@ -2,7 +2,8 @@ if has('vim_starting')
   set nocompatible               " Be iMproved
 
   " Required:
-  set runtimepath+=$VIM/vimfiles/bundle/neobundle.vim/
+
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 " Required:
@@ -11,16 +12,23 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'nosami/molokai'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'nosami/Omnisharp'
-NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'tpope/vim-vinegar'
+
+NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'Shougo/neocomplete'
+NeoBundle 'featurist/vim-pogoscript'
+NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'marijnh/tern_for_vim'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'nosami/Omnisharp'
+NeoBundle 'nosami/molokai'
+NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'featurist/vim-pogoscript'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'tpope/vim-dispatch'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'vim-scripts/ZoomWin'
 
 filetype plugin on
@@ -50,7 +58,7 @@ set mouse=a
 set autoindent
 set si
 set history=1000
-set noexpandtab                 " tabs are tabs, not spaces
+set expandtab
 set shiftwidth=4
 set tabstop=4
 set ignorecase
@@ -69,8 +77,6 @@ set completeopt=longest,menuone,preview "don't autoselect first item in omnicomp
 let g:molokai_original = 1
 colorscheme molokai
 set gdefault                    " the /g flag on :s substitutions by default
-"inoremap <C-Space> <C-x><C-o>
-"highlight Pmenu ctermbg=238 gui=bold
 set makeprg=build
 set errorformat=\ %#%f(%l\\\,%c):\ %m
 "use insert cursor when in insert mode in terminal
@@ -80,14 +86,6 @@ if exists('$TMUX')
   let &t_SI = "\<Esc>[3 q"
   let &t_EI = "\<Esc>[0 q"
 endif
-"Java anonymous classes. Sometimes, you have to use them.
-"set cinoptions+=j1
-"set tags=/home/jason/workspace/LateRoomsAndroidClient
-"Make window smaller
-"map - <C-W>-
-"Make window bigger
-"map = <C-W>+
-
 let mapleader=" "
 
 "This is the default value, setting it isn't actually necessary
@@ -101,8 +99,6 @@ set splitbelow
 inoremap jk <esc>
 inoremap kj <esc>
 inoremap <C-a> <esc>
-vnoremap jk <esc>
-vnoremap kj <esc>
 vnoremap <C-a> <esc>
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
@@ -110,7 +106,7 @@ nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
 inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --ignore-dir=imd_system --ignore-dir=quack_template"
-autocmd FileType javascript setlocal tabstop=2 shiftwidth=2
+autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 nnoremap <leader>a :Ag<cword><cr>
 " Builds can run asynchronously with vim-dispatch installed
 nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
@@ -228,7 +224,7 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
 
-let g:neocomplete#sources#omni#input_patterns.cs = '.*[^;]'
+let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
 let g:neocomplete#sources.cs = ['omni']
 let g:neocomplete#enable_refresh_always = 0
 let g:echodoc_enable_at_startup = 1
