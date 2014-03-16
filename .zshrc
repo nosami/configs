@@ -41,16 +41,14 @@ ZSH_THEME="gentoo"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git vi-mode)
+
+source $ZSH/oh-my-zsh.sh
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
-
-source $ZSH/oh-my-zsh.sh
-alias vim='/usr/local/bin/vim'
-alias emacs='/usr/local/bin/emacs'
 alias nunit='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias warmup='mono /Library/Ruby/Gems/2.0.0/gems/warmup-0.6.6.0/bin/warmup.exe'
 # Customize to your needs...
