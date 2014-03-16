@@ -13,7 +13,6 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'featurist/vim-pogoscript'
 NeoBundle 'jelera/vim-javascript-syntax'
@@ -125,9 +124,9 @@ nnoremap <leader>tt :OmniSharpTypeLookup<cr>
 nnoremap <leader>dc :OmniSharpDocumentation<cr>
 
 "show type information automatically when the cursor stops moving
-autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
-set updatetime=300
-set cmdheight=2
+"autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+"set updatetime=300
+"set cmdheight=2
 "I find contextual code actions so useful that I have it mapped to the spacebar
 nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
 
