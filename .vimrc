@@ -143,6 +143,7 @@ nnoremap <leader>rl :OmniSharpReloadSolution<cr>
 nnoremap <leader>cf :OmniSharpCodeFormat<cr>
 " Load the current .cs file to the nearest project
 nnoremap <leader>tp :OmniSharpAddToProject<cr>
+
 " Automatically add new cs files to the nearest project on save
 autocmd BufWritePost *.cs call OmniSharp#AddToProject()
 " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
@@ -151,6 +152,11 @@ nnoremap <leader>sp :OmniSharpStopServer<cr>
 
 " Add syntax highlighting for types and interfaces
 nnoremap <leader>th :OmniSharpHighlightTypes<cr>
+nnoremap <leader>rt :OmniSharpRunTests<cr>
+nnoremap <leader>rf :OmniSharpRunTestFixture<cr>
+nnoremap <leader>ra :OmniSharpRunAllTests<cr>
+nnoremap <leader>rl :OmniSharpRunLastTests<cr>
+
 nnoremap <C-S> :w<cr>
 inoremap <C-S> <esc>:w<cr>
 "let g:OmniSharp_BufWritePreSyntaxCheck = 1
