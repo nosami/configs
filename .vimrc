@@ -235,3 +235,4 @@ let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
 let g:neocomplete#sources.cs = ['omni']
 let g:neocomplete#enable_refresh_always = 0
 let g:echodoc_enable_at_startup = 1
+let g:neocomplete#enable_insert_char_pre = 1

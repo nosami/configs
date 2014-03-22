@@ -53,3 +53,4 @@ alias nunit='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-conso
 alias warmup='mono /Library/Ruby/Gems/2.0.0/gems/warmup-0.6.6.0/bin/warmup.exe'
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
+export EDITOR=/usr/local/bin/vim
