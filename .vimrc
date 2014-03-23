@@ -105,6 +105,18 @@ nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
+"yank and put keep cursor at the bottom of the selection on completion
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+" copy and paste from system clipboard
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
 inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --ignore-dir=imd_system --ignore-dir=quack_template"
 autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
@@ -159,6 +171,7 @@ nnoremap <leader>rl :OmniSharpRunLastTests<cr>
 
 nnoremap <C-S> :w<cr>
 inoremap <C-S> <esc>:w<cr>
+nnoremap <Leader>w :w<CR>
 "let g:OmniSharp_BufWritePreSyntaxCheck = 1
 "let g:OmniSharp_CursorHoldSyntaxCheck  = 1
 "Don't ask to save when changing buffers (ie when jumping to a type definition)
