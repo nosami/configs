@@ -13,11 +13,13 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'Rip-Rip/clang_complete'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'christoomey/vim-tmux-navigator'
 NeoBundle 'featurist/vim-pogoscript'
 NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'maksimr/vim-jsbeautify'
 NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'nosami/Omnisharp'
@@ -30,8 +32,9 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'vim-scripts/ZoomWin'
 
+
+let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
 filetype plugin on
 filetype indent on
 
@@ -47,6 +50,7 @@ set laststatus=2
 " disable beeping
 set noerrorbells visualbell t_vb=
 if has('autocmd')
+	autocmd!
 	autocmd GUIEnter * set visualbell t_vb=
 endif
 syntax on
@@ -56,6 +60,10 @@ set number
 set hidden
 set cursorline
 set mouse=a
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
 set autoindent
 set si
 set history=1000
@@ -80,6 +88,7 @@ colorscheme molokai
 set gdefault                    " the /g flag on :s substitutions by default
 set makeprg=build
 set errorformat=\ %#%f(%l\\\,%c):\ %m
+set nofoldenable
 "use insert cursor when in insert mode in terminal
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -117,9 +126,20 @@ nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
 
-inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
+nnoremap <leader>1 :diffget //2<cr>
+nnoremap <leader>2 :Gwrite!<cr>:wq!<cr>
+nnoremap <leader>3 :diffget //3<cr>
+
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+
 let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --ignore-dir=imd_system --ignore-dir=quack_template"
 autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+
+
+" OmniSharp
+inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 nnoremap <leader>a :Ag<cword><cr>
 " Builds can run asynchronously with vim-dispatch installed
 nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
@@ -134,21 +154,26 @@ nnoremap <leader>ft :OmniSharpFindType<cr>
 nnoremap <leader>fs :OmniSharpFindSymbol<cr>
 nnoremap <leader>fu :OmniSharpFindUsages<cr>
 nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
+nnoremap <leader>x  :OmniSharpFixIssue<cr>
 nnoremap <leader>tt :OmniSharpTypeLookup<cr>
 nnoremap <leader>dc :OmniSharpDocumentation<cr>
 
 "show type information automatically when the cursor stops moving
 autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
+let g:syntastic_cs_checkers = ['syntax', 'issues']
+"autocmd CursorHold *.cs call OmniSharp#GetIssues()
 set updatetime=300
 set cmdheight=2
 "I find contextual code actions so useful that I have it mapped to the spacebar
 nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-
+vnoremap <leader><space> :call OmniSharp#GetCodeActions()<cr>
 " rename with dialog
 nnoremap <leader>nm :OmniSharpRename<cr>
 nnoremap <F2> :OmniSharpRename<cr>      
 " rename without dialog - with cursor on the symbol to rename... ':Rename newname'
 command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+command! -nargs=1 R :call OmniSharp#RenameTo("<args>")
 
 " Force OmniSharp to reload the solution. Useful when switching branches etc.
 nnoremap <leader>rl :OmniSharpReloadSolution<cr>
@@ -193,6 +218,7 @@ func! SynStack()
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
 autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
 "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
@@ -248,4 +274,22 @@ let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
 let g:neocomplete#sources.cs = ['omni']
 let g:neocomplete#enable_refresh_always = 0
 let g:echodoc_enable_at_startup = 1
-let g:neocomplete#enable_insert_char_pre = 1
+"let g:neocomplete#enable_insert_char_pre = 1
+
+"neocomplete settings for obj c
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+let g:neocomplete#force_overwrite_completefunc = 1
+let g:neocomplete#force_omni_input_patterns.c =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+"let g:clang_use_library = 1

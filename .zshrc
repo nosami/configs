@@ -50,7 +50,10 @@ bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
 alias nunit='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
+alias nunit-console.exe='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias warmup='mono /Library/Ruby/Gems/2.0.0/gems/warmup-0.6.6.0/bin/warmup.exe'
+alias omni='cd ~/.vim/bundle/Omnisharp/server/OmniSharp'
+alias src='cd ~/src'
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
 export EDITOR=/usr/local/bin/vim
