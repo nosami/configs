@@ -21,6 +21,7 @@ NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'maksimr/vim-jsbeautify'
 NeoBundle 'marijnh/tern_for_vim'
+NeoBundle 'laurentgoudet/vim-howdoi'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'nosami/Omnisharp'
 NeoBundle 'nosami/molokai'
@@ -129,18 +130,41 @@ vmap <Leader>P "+P
 nnoremap <leader>1 :diffget //2<cr>
 nnoremap <leader>2 :Gwrite!<cr>:wq!<cr>
 nnoremap <leader>3 :diffget //3<cr>
+map <Leader>h <Plug>Howdoi
 
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
-let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --ignore-dir=imd_system --ignore-dir=quack_template"
+let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --ignore-dir=imd_system --ignore-dir=quack_template --ignore=npm-debug.log"
 autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 
 
 " OmniSharp
 inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 nnoremap <leader>a :Ag<cword><cr>
+
+"" Ag motion mappings. (stolen from Steve Losh!)
+"nnoremap <silent> <leader>a :set opfunc=<SID>AgMotion<CR>g@
+"xnoremap <silent> <leader>a :<C-U>call <SID>AgMotion(visualmode())<CR>
+
+"nnoremap <bs> :Ag! '\b<c-r><c-w>\b'<cr>
+"xnoremap <silent> <bs> :<C-U>call <SID>AgMotion(visualmode())<CR>
+
+"function! s:CopyMotionForType(type)
+  "if a:type ==# 'v'
+    "silent execute "normal! `<" . a:type . "`>y"
+  "elseif a:type ==# 'char'
+    "silent execute "normal! `[v`]y"
+  "endif
+"endfunction
+
+"function! s:AgMotion(type) abort
+  "let reg_save = @@
+  "call s:CopyMotionForType(a:type)
+  "execute "normal! :Ag! --literal " . shellescape(@@) . "\<cr>"
+  "let @@ = reg_save
+"endfunction
 " Builds can run asynchronously with vim-dispatch installed
 nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
 nnoremap <C-b> :wa!<cr>:OmniSharpBuildAsync<cr>
@@ -167,7 +191,7 @@ set updatetime=300
 set cmdheight=2
 "I find contextual code actions so useful that I have it mapped to the spacebar
 nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-vnoremap <leader><space> :call OmniSharp#GetCodeActions()<cr>
+vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
 " rename with dialog
 nnoremap <leader>nm :OmniSharpRename<cr>
 nnoremap <F2> :OmniSharpRename<cr>      
