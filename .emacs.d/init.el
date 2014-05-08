@@ -39,10 +39,20 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(company-idle-delay 0.2)
- '(company-minimum-prefix-length 1))
+ '(company-minimum-prefix-length 1)
+ '(safe-local-variable-values (quote ((eval when (fboundp (quote rainbow-mode)) (rainbow-mode 1))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
+(global-hl-line-mode 1)
+ 
+;; To customize the background color
+(set-face-background 'hl-line "#333")
+(define-key evil-insert-state-map (kbd "j k") 'evil-normal-state)
+(define-key evil-insert-state-map (kbd "k j") 'evil-normal-state)
+(setq evil-normal-state-cursor 'hollow)
+
+(setq evil-insert-state-cursor '("red" hbar))
