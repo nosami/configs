@@ -1,0 +1,19 @@
+[user]
+	name = nosami
+	email = jasonimison@gmail.com
+[color]
+	ui = auto
+[mergetool "fugitive"]
+	cmd = vim -f -c \"Gdiff\" \"$MERGED\"
+[merge]
+	tool = fugitive
+[credential]
+	helper = osxkeychain
+[alias]
+    co = checkout
+    st = status
+    br = branch
+    l = log -1
+    sm = submodule update --init --recursive
+[push]
+	default = simple
