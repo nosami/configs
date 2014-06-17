@@ -50,6 +50,24 @@ bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
 bindkey -s '^[3' \#
+
+mkcd () {
+    mkdir -p "$*"
+    cd "$*"
+}
+
+#ctrl-z suspends _and_ resumes
+fancy-ctrl-z () {
+    if [[ $#BUFFER -eq 0 ]]; then
+        fg
+        zle redisplay
+    else
+        zle push-input
+    fi
+}
+
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
 alias nunit='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias nunit-console.exe='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias warmup='mono /Library/Ruby/Gems/2.0.0/gems/warmup-0.6.6.0/bin/warmup.exe'
@@ -60,3 +78,6 @@ alias v='vim .'
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:~/src/OpenIDEBak/ReleaseBinaries:$PATH
 export EDITOR=/usr/local/bin/vim
 export PYTHONSTARTUP=~/.pystartup
+
+[ -s "/Users/jason/.kre/kvm/kvm.sh" ] && . "/Users/jason/.kre/kvm/kvm.sh" # this loads kvm
+source ~/.fzf.zsh
