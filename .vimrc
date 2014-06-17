@@ -14,9 +14,13 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Rip-Rip/clang_complete'
-NeoBundle 'Shougo/neocomplete'
+"NeoBundle 'Shougo/neocomplete'
+NeoBundle 'SirVer/ultisnips'
+NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'christoomey/vim-tmux-navigator'
 NeoBundle 'featurist/vim-pogoscript'
+NeoBundle 'honza/vim-snippets'
+NeoBundle 'jaxbot/brolink.vim'
 NeoBundle 'jelera/vim-javascript-syntax'
 NeoBundle 'junegunn/vader.vim'
 NeoBundle 'kien/ctrlp.vim'
@@ -25,6 +29,7 @@ NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'laurentgoudet/vim-howdoi'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'nosami/Omnisharp'
+NeoBundle 'nosami/fsharp-vim'
 NeoBundle 'nosami/molokai'
 NeoBundle 'nosami/tslime.vim'
 NeoBundle 'pangloss/vim-javascript'
@@ -37,16 +42,28 @@ NeoBundle 'tpope/vim-vinegar'
 
 
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsListSnippets ="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+
 filetype plugin on
 filetype indent on
 
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 NeoBundleCheck
-
-set guifont=Consolas:h11:cANSI
-set guioptions+=LlRrbmT
-set guioptions-=LlRrbmT
+if has("gui_running")
+    set guioptions+=LlRrbmT
+    set guioptions-=LlRrbmT
+    if has("win32")
+        set guifont=Consolas:h11:cANSI
+    else
+        set guifont=Source\ Code\ Pro\ for\ Powerline
+    endif
+endif
 set encoding=utf-8
 set laststatus=2
 " disable beeping
@@ -91,6 +108,10 @@ set gdefault                    " the /g flag on :s substitutions by default
 set makeprg=build
 set errorformat=\ %#%f(%l\\\,%c):\ %m
 set nofoldenable
+if has('balloon_eval')
+    set ballooneval
+    set ballondelay=300
+endif
 "use insert cursor when in insert mode in terminal
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -110,8 +131,8 @@ let g:OmniSharp_typeLookupInPreview = 0
 set splitbelow 
 inoremap jk <esc>
 inoremap kj <esc>
-inoremap <C-a> <esc>
-vnoremap <C-a> <esc>
+vnoremap jk <esc>
+vnoremap kj <esc>
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
@@ -143,32 +164,10 @@ autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --ignore-dir=imd_system --ignore-dir=quack_template --ignore=npm-debug.log"
 autocmd FileType javascript,pogo setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 
-
 " OmniSharp
 inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 nnoremap <leader>a :Ag<cword><cr>
 
-"" Ag motion mappings. (stolen from Steve Losh!)
-"nnoremap <silent> <leader>a :set opfunc=<SID>AgMotion<CR>g@
-"xnoremap <silent> <leader>a :<C-U>call <SID>AgMotion(visualmode())<CR>
-
-"nnoremap <bs> :Ag! '\b<c-r><c-w>\b'<cr>
-"xnoremap <silent> <bs> :<C-U>call <SID>AgMotion(visualmode())<CR>
-
-"function! s:CopyMotionForType(type)
-  "if a:type ==# 'v'
-    "silent execute "normal! `<" . a:type . "`>y"
-  "elseif a:type ==# 'char'
-    "silent execute "normal! `[v`]y"
-  "endif
-"endfunction
-
-"function! s:AgMotion(type) abort
-  "let reg_save = @@
-  "call s:CopyMotionForType(a:type)
-  "execute "normal! :Ag! --literal " . shellescape(@@) . "\<cr>"
-  "let @@ = reg_save
-"endfunction
 " Builds can run asynchronously with vim-dispatch installed
 nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
 nnoremap <C-b> :wa!<cr>:OmniSharpBuildAsync<cr>
@@ -183,6 +182,7 @@ nnoremap <leader>fs :OmniSharpFindSymbol<cr>
 nnoremap <leader>fu :OmniSharpFindUsages<cr>
 nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
 nnoremap <leader>x  :OmniSharpFixIssue<cr>
+nnoremap <leader>fx :OmniSharpFixUsings<cr>
 nnoremap <leader>tt :OmniSharpTypeLookup<cr>
 nnoremap <leader>dc :OmniSharpDocumentation<cr>
 
@@ -192,7 +192,7 @@ autocmd BufEnter,TextChanged,InsertLeave *.cs SyntasticCheck
 let g:syntastic_cs_checkers = ['syntax', 'issues']
 "autocmd CursorHold *.cs call OmniSharp#GetIssues()
 set updatetime=300
-set cmdheight=2
+set cmdheight=1
 "I find contextual code actions so useful that I have it mapped to the spacebar
 nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
 vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
@@ -248,76 +248,77 @@ func! SynStack()
 endfunc
 
 autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Don't Use smartcase.
-let g:neocomplete#enable_smart_case = 0
-let g:neocomplete#enable_auto_close_preview = 0
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist'
-        \ }
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  "return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-
-let g:neocomplete#enable_auto_select = 0
-let g:neocomplete#disable_auto_complete = 0
-
-" Enable heavy omni completion.
-
-call neocomplete#custom#source('_', 'sorters', [])
-
-if !exists('g:neocomplete#sources')
-        let g:neocomplete#sources = {}
-endif
-
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-
-let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
-let g:neocomplete#sources.cs = ['omni']
-let g:neocomplete#enable_refresh_always = 0
-let g:echodoc_enable_at_startup = 1
-"let g:neocomplete#enable_insert_char_pre = 1
-
-"neocomplete settings for obj c
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-
-let g:neocomplete#force_overwrite_completefunc = 1
-let g:neocomplete#force_omni_input_patterns.c =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.objc =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-"let g:clang_use_library = 1
+"autocmd FileType fs setlocal omnifunc=fsharp#Complete
+""Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+"" Disable AutoComplPop.
+"let g:acp_enableAtStartup = 0
+"" Use neocomplete.
+"let g:neocomplete#enable_at_startup = 1
+"" Don't Use smartcase.
+"let g:neocomplete#enable_smart_case = 0
+"let g:neocomplete#enable_auto_close_preview = 0
+"" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+"    \ 'default' : '',
+"    \ 'vimshell' : $HOME.'/.vimshell_hist'
+"        \ }
+"
+"" Plugin key-mappings.
+"inoremap <expr><C-g>     neocomplete#undo_completion()
+"inoremap <expr><C-l>     neocomplete#complete_common_string()
+"
+"" Recommended key-mappings.
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+"  "return neocomplete#close_popup() . "\<CR>"
+"  " For no inserting <CR> key.
+"  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+"endfunction
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-y>  neocomplete#close_popup()
+"inoremap <expr><C-e>  neocomplete#cancel_popup()
+"
+"let g:neocomplete#enable_auto_select = 0
+"let g:neocomplete#disable_auto_complete = 0
+"
+"" Enable heavy omni completion.
+"
+"call neocomplete#custom#source('_', 'sorters', [])
+"
+"if !exists('g:neocomplete#sources')
+"        let g:neocomplete#sources = {}
+"endif
+"
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+"  let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+"
+"let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
+""let g:neocomplete#sources.cs = ['omni']
+"let g:neocomplete#enable_refresh_always = 0
+"let g:echodoc_enable_at_startup = 1
+""let g:neocomplete#enable_insert_char_pre = 1
+"
+""neocomplete settings for obj c
+"if !exists('g:neocomplete#force_omni_input_patterns')
+"  let g:neocomplete#force_omni_input_patterns = {}
+"endif
+"
+"let g:neocomplete#force_overwrite_completefunc = 1
+"let g:neocomplete#force_omni_input_patterns.c =
+"      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+"let g:neocomplete#force_omni_input_patterns.cpp =
+"      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+"let g:neocomplete#force_omni_input_patterns.objc =
+"      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+"let g:neocomplete#force_omni_input_patterns.objcpp =
+"      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+"let g:clang_complete_auto = 0
+"let g:clang_auto_select = 0
+""let g:clang_use_library = 1
