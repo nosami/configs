@@ -74,6 +74,7 @@ alias warmup='mono /Library/Ruby/Gems/2.0.0/gems/warmup-0.6.6.0/bin/warmup.exe'
 alias omni='cd ~/.vim/bundle/Omnisharp/server/OmniSharp'
 alias src='cd ~/src'
 alias v='vim .'
+alias updatedb='/usr/libexec/locate.updatedb'
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:~/src/OpenIDEBak/ReleaseBinaries:$PATH
 export EDITOR=/usr/local/bin/vim
