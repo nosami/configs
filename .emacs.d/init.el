@@ -1,6 +1,6 @@
 (message "-")
 (setq mac-option-modifier 'meta)
-
+(add-to-list 'exec-path "/usr/local/bin")
 ;Recursively add site-lisp to the load path
 ;Make sure custom stuff goes to the front of the list
 (let ((default-directory "~/src/elisp"))
@@ -17,12 +17,12 @@
 (package-initialize)
 (setq evil-want-C-u-scroll t)
 (require 'evil-leader)
+(require 'evil-jumper)
 (global-evil-leader-mode)
 (evil-mode 1)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (tool-bar-mode -1)
-
 (message "0")
 (load-theme 'monokai t)
 ;;(if (not (display-graphic-p))
@@ -53,6 +53,15 @@
 (global-set-key (kbd "<mouse-4>") 'scroll-down-n-lines) ;
 (global-set-key (kbd "<mouse-5>") 'scroll-up-n-lines) ;
 
+(defun toggle-fullscreen ()
+  "Toggle full screen"
+  (interactive)
+  (set-frame-parameter
+     nil 'fullscreen
+     (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
+
+(global-set-key (kbd "C-<return>") 'toggle-fullscreen)
+
 (setq compilation-ask-about-save nil)
 (message "0a")
 
@@ -63,6 +72,7 @@
   (add-to-list 'company-backends 'company-omnisharp)
   (omnisharp-mode)
   (company-mode)
+  (flycheck-mode)
   (turn-on-eldoc-mode))
 
 (setq omnisharp-company-strip-trailing-brackets nil)
@@ -138,23 +148,40 @@
 
 ;; (define-key evil-insert-state-map (kbd "k j") 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "g d") 'omnisharp-go-to-definition)
-(define-key evil-normal-state-map (kbd "<SPC>fu") 'omnisharp-find-usages)
-(define-key evil-normal-state-map (kbd "<SPC>fi") 'omnisharp-find-implementations)
-(define-key evil-normal-state-map (kbd "<SPC>e") 'find-file)
+(define-key evil-normal-state-map (kbd "<SPC> b") 'omnisharp-build-in-emacs)
+(define-key evil-normal-state-map (kbd "<SPC> cf") 'omnisharp-code-format)
+(define-key evil-normal-state-map (kbd "<SPC> nm") 'omnisharp-rename-interactively)
+(define-key evil-normal-state-map (kbd "<SPC> fu") 'omnisharp-find-usages)
+(define-key evil-normal-state-map (kbd "<SPC> ss") 'omnisharp-start-omnisharp-server)
+(define-key evil-normal-state-map (kbd "<SPC> sp") 'omnisharp-stop-omnisharp-server)
+(define-key evil-normal-state-map (kbd "<SPC> fi") 'omnisharp-find-implementations)
+(define-key evil-normal-state-map (kbd "<SPC> e") 'find-file)
 (define-key evil-normal-state-map (kbd "<SPC> w") 'evil-write)
+(define-key evil-normal-state-map (kbd "<SPC> x") 'omnisharp-fix-code-issue-at-point)
+(define-key evil-normal-state-map (kbd "<SPC> cc") 'evilnc-comment-or-uncomment-lines)
+(define-key evil-visual-state-map (kbd "<SPC> cc") 'evilnc-comment-or-uncomment-lines)
+(define-key evil-normal-state-map (kbd "<SPC> c <SPC>") 'evilnc-comment-or-uncomment-lines)
+(define-key evil-visual-state-map (kbd "<SPC> c <SPC>") 'evilnc-comment-or-uncomment-lines)
+
 (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
 (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
-(defun company-complete-selection-insert-dot()
-  (interactive)
+(defun company-complete-selection-insert-key(company-key)
   (company-complete-selection)
-  (insert ".")
-  (company-complete))
-(define-key company-active-map (kbd ".") 'company-complete-selection-insert-dot)
-(evil-leader/set-key "x" 'omnisharp-fix-code-issue-at-point)
-(evil-leader/set-key "c" 'comment-or-uncomment-region)
-;;(define-key evil-normal-state-map(evil-leader/set-key-for-mode 'omnisharp-mode "f") 'omnisharp-find-usages)
-;;(setq evil-normal-state-cursor 'hollow)
+  (insert company-key))
 
+(defun company-complete-selection-insert-key-and-complete(company-key)
+  (company-complete-selection-insert-key company-key)
+  (company-complete))
+
+(define-key company-active-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
+(define-key company-active-map (kbd "(") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"(")))
+(define-key company-active-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
+(define-key company-active-map (kbd "[") (lambda() (interactive) (company-complete-selection-insert-key '"[")))
+(define-key company-active-map (kbd ")") (lambda() (interactive) (company-complete-selection-insert-key '")")))
+(define-key company-active-map (kbd "<SPC>") nil)
+(define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
+(define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
+;;(define-key evil-normal-state-map(evil-leader/set-key-for-mode 'omnisharp-mode "f") 'omnisharp-find-usages) ;;(setq evil-normal-state-cursor 'hollow) 
 ;;(setq evil-insert-state-cursor '("red" hbar))
 
 (global-set-key (kbd "C-x f") 'helm-for-files)
@@ -192,3 +219,5 @@
     (highlight-parentheses-mode t)))
 (global-highlight-parentheses-mode t)
 (setq ring-bell-function 'ignore)
+
+(require 'w3m-load)
