@@ -175,6 +175,10 @@
   (company-complete-selection-insert-key company-key)
   (company-complete))
 
+;; better than vim-vinegar
+(define-key evil-normal-state-map (kbd "-") 'dired-jump)
+(define-key dired-mode-map (kbd "-") 'dired-up-directory)
+
 (define-key company-active-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
 (define-key company-active-map (kbd "(") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"(")))
 (define-key company-active-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
