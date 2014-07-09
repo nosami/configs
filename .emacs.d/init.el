@@ -13,6 +13,7 @@
 		(add-to-list 'new-load-path var)
 		(setq load-path (append new-load-path old-path))))))
 
+(scroll-bar-mode)
 (require 'package)
 (package-initialize)
 (setq evil-want-C-u-scroll t)
@@ -185,6 +186,7 @@
 ;;(setq evil-insert-state-cursor '("red" hbar))
 
 (global-set-key (kbd "C-x f") 'helm-for-files)
+(global-set-key (kbd "C-p") 'helm-for-files)
 (require 'smex) ; Not needed if you use package.el
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
                   ; when Smex is auto-initialized on its first run.
