@@ -13,7 +13,7 @@
 		(add-to-list 'new-load-path var)
 		(setq load-path (append new-load-path old-path))))))
 
-(scroll-bar-mode)
+(set-scroll-bar-mode nil)
 (require 'package)
 (package-initialize)
 (setq evil-want-C-u-scroll t)
@@ -149,6 +149,7 @@
 
 ;; (define-key evil-insert-state-map (kbd "k j") 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "g d") 'omnisharp-go-to-definition)
+(define-key evil-normal-state-map (kbd "C-p") 'helm-for-files)
 (define-key evil-normal-state-map (kbd "<SPC> b") 'omnisharp-build-in-emacs)
 (define-key evil-normal-state-map (kbd "<SPC> cf") 'omnisharp-code-format)
 (define-key evil-normal-state-map (kbd "<SPC> nm") 'omnisharp-rename-interactively)
@@ -186,7 +187,6 @@
 ;;(setq evil-insert-state-cursor '("red" hbar))
 
 (global-set-key (kbd "C-x f") 'helm-for-files)
-(global-set-key (kbd "C-p") 'helm-for-files)
 (require 'smex) ; Not needed if you use package.el
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
                   ; when Smex is auto-initialized on its first run.
