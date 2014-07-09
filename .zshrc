@@ -81,4 +81,4 @@ export EDITOR=/usr/local/bin/vim
 export PYTHONSTARTUP=~/.pystartup
 
 [ -s "/Users/jason/.kre/kvm/kvm.sh" ] && . "/Users/jason/.kre/kvm/kvm.sh" # this loads kvm
-source ~/.fzf.zsh
+# source ~/.fzf.zsh
