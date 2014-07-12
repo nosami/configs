@@ -227,3 +227,20 @@
 (setq ring-bell-function 'ignore)
 
 (require 'w3m-load)
+
+
+
+(define-key evil-normal-state-map (kbd "<SPC> rt") (lambda() (interactive) (omnisharp-unit-test "single")))
+(define-key evil-normal-state-map (kbd "<SPC> rf") (lambda() (interactive) (omnisharp-unit-test "fixture")))
+(define-key evil-normal-state-map (kbd "<SPC> ra") (lambda() (interactive) (omnisharp-unit-test "all")))
+
+(defun omnisharp-unit-test(mode)
+  (interactive)
+  (let ((build-command (omnisharp-post-message-curl (concat (omnisharp-get-host) "buildcommand") (omnisharp--get-common-params)))
+	(test-command (cdr (assoc 'TestCommand
+		    (omnisharp-post-message-curl-as-json
+		     (concat (omnisharp-get-host) "gettestcontext") 
+		     (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
+    (add-to-list 'compilation-error-regexp-alist
+		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
+    (compile (concat build-command " && " test-command))))
