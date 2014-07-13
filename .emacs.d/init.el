@@ -38,9 +38,9 @@
 ;;(setq linum-format "%d ")
 
 (require 'mouse)
-(xterm-mouse-mode t)
-(defun track-mouse (e)) 
-(setq mouse-sel-mode t)
+;; (xterm-mouse-mode t)
+;; (defun track-mouse (e)) 
+;; (setq mouse-sel-mode t)
 (defun scroll-up-n-lines ()
   "Scroll up n lines"
   (interactive)
@@ -164,6 +164,9 @@
 (define-key evil-visual-state-map (kbd "<SPC> cc") 'evilnc-comment-or-uncomment-lines)
 (define-key evil-normal-state-map (kbd "<SPC> c <SPC>") 'evilnc-comment-or-uncomment-lines)
 (define-key evil-visual-state-map (kbd "<SPC> c <SPC>") 'evilnc-comment-or-uncomment-lines)
+(define-key evil-normal-state-map (kbd "<SPC> cn") 'next-error)
+(define-key evil-normal-state-map (kbd "<SPC> cp") 'previous-error)
+(define-key evil-insert-state-map (kbd "<RET>") 'newline-and-indent)
 
 (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
 (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
@@ -233,6 +236,7 @@
 (define-key evil-normal-state-map (kbd "<SPC> rt") (lambda() (interactive) (omnisharp-unit-test "single")))
 (define-key evil-normal-state-map (kbd "<SPC> rf") (lambda() (interactive) (omnisharp-unit-test "fixture")))
 (define-key evil-normal-state-map (kbd "<SPC> ra") (lambda() (interactive) (omnisharp-unit-test "all")))
+(define-key evil-normal-state-map (kbd "<SPC> rl") 'recompile)
 
 (defun omnisharp-unit-test(mode)
   (interactive)
