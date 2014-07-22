@@ -1,5 +1,8 @@
 (message "-")
 (setq mac-option-modifier 'meta)
+;; Allow hash to be entered  
+(global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+
 (add-to-list 'exec-path "/usr/local/bin")
 ;Recursively add site-lisp to the load path
 ;Make sure custom stuff goes to the front of the list
@@ -36,6 +39,11 @@
 
 (global-linum-mode t)
 ;;(setq linum-format "%d ")
+
+(setq yas-snippet-dirs
+      '("~/src/yasmate/snippets"))
+
+(yas-global-mode 1)
 
 (require 'mouse)
 ;; (xterm-mouse-mode t)
@@ -113,6 +121,7 @@
  '(company-frontends (quote (company-pseudo-tooltip-frontend company-echo-metadata-frontend)))
  '(company-idle-delay 0.03)
  '(company-minimum-prefix-length 1)
+ '(company-show-numbers t)
  '(omnisharp-auto-complete-want-documentation nil)
  '(safe-local-variable-values (quote ((eval when (fboundp (quote rainbow-mode)) (rainbow-mode 1)))))
  '(savehist-mode t))
@@ -190,9 +199,10 @@
 (define-key company-active-map (kbd "<SPC>") nil)
 (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
 (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
+(define-key evil-normal-state-map (kbd ";") 'smex)
 ;;(define-key evil-normal-state-map(evil-leader/set-key-for-mode 'omnisharp-mode "f") 'omnisharp-find-usages) ;;(setq evil-normal-state-cursor 'hollow) 
 ;;(setq evil-insert-state-cursor '("red" hbar))
-
+(define-key key-translation-map (kbd "$") (kbd "#"))
 (global-set-key (kbd "C-x f") 'helm-for-files)
 (require 'smex) ; Not needed if you use package.el
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
@@ -238,6 +248,38 @@
 (define-key evil-normal-state-map (kbd "<SPC> ra") (lambda() (interactive) (omnisharp-unit-test "all")))
 (define-key evil-normal-state-map (kbd "<SPC> rl") 'recompile)
 
+(defun check-expansion ()
+  (save-excursion
+    (if (looking-at "\\_>") t
+      (backward-char 1)
+      (if (looking-at "\\.") t
+	(backward-char 1)
+	(if (looking-at "->") t nil)))))
+
+(defun do-yas-expand ()
+  (let ((yas/fallback-behavior 'return-nil))
+    (yas/expand)))
+
+(defun tab-indent-or-complete ()
+  (interactive)
+  (message "grrr")
+  (if (minibufferp)
+      (minibuffer-complete)
+    (if (or (not yas/minor-mode)
+	    (null (do-yas-expand)))
+	(if (check-expansion)
+	    (company-complete-common)
+	  (indent-for-tab-command)))))
+
+(define-key company-active-map (kbd "<tab>") 'tab-indent-or-complete)
+
+(defun omnisharp-fix-usings(mode)
+  (interactive)
+  
+)
+(add-to-list 'compilation-error-regexp-alist
+		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
+
 (defun omnisharp-unit-test(mode)
   (interactive)
   (let ((build-command (omnisharp-post-message-curl (concat (omnisharp-get-host) "buildcommand") (omnisharp--get-common-params)))
@@ -245,6 +287,5 @@
 		    (omnisharp-post-message-curl-as-json
 		     (concat (omnisharp-get-host) "gettestcontext") 
 		     (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
-    (add-to-list 'compilation-error-regexp-alist
-		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
+    
     (compile (concat build-command " && " test-command))))
