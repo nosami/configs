@@ -262,7 +262,6 @@
 
 (defun tab-indent-or-complete ()
   (interactive)
-  (message "grrr")
   (if (minibufferp)
       (minibuffer-complete)
     (if (or (not yas/minor-mode)
