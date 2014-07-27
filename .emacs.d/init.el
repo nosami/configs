@@ -29,7 +29,7 @@
 (defun csharp-should-method-space-replace ()
   "When pressing space while naming a defined method, insert an underscore"
   (interactive)
-  (if (and (looking-back "Should.*")
+  (if (and (looking-back "void Should.*")
            (not (and
                  (looking-at ".*)$")
                  (looking-back "(.*"))))
