@@ -1,7 +1,44 @@
 (message "-")
-(setq mac-option-modifier 'meta)
-;; Allow hash to be entered  
+;; Allow hash to be entered on UK mac keyboard
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+
+(defun find-project-root ()
+  (interactive)
+  (if (ignore-errors (eproject-root))
+      (eproject-root)
+    (or (find-git-repo (buffer-file-name)) (file-name-directory (buffer-file-name)))))
+
+(defun find-git-repo (dir)
+  (if (string= "/" dir)
+      nil
+    (if (file-exists-p (expand-file-name "../.git/" dir))
+        dir
+      (find-git-repo (expand-file-name "../" dir)))))
+
+
+(defun file-path-to-namespace ()
+  (interactive)
+  (let (
+        (root (find-project-root))
+        (base (file-name-nondirectory buffer-file-name))
+        )
+    (substring (replace-regexp-in-string "/" "\." (substring buffer-file-name (length root) (* -1 (length base))) t t) 0 -1)
+    )
+  )
+
+(defun csharp-should-method-space-replace ()
+  "When pressing space while naming a defined method, insert an underscore"
+  (interactive)
+  (if (and (looking-back "Should.*")
+           (not (and
+                 (looking-at ".*)$")
+                 (looking-back "(.*"))))
+      (insert "_")
+    (insert " ")))
+
+(eval-after-load 'csharp-mode
+  '(progn
+     (define-key csharp-mode-map (kbd "SPC") 'csharp-should-method-space-replace)))
 
 (add-to-list 'exec-path "/usr/local/bin")
 ;Recursively add site-lisp to the load path
@@ -41,7 +78,7 @@
 ;;(setq linum-format "%d ")
 
 (setq yas-snippet-dirs
-      '("~/src/yasmate/snippets"))
+      '("~/src/yasnippet-csharp"))
 
 (yas-global-mode 1)
 
@@ -199,7 +236,6 @@
 (define-key company-active-map (kbd "<SPC>") nil)
 (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
 (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
-(define-key evil-normal-state-map (kbd ";") 'smex)
 ;;(define-key evil-normal-state-map(evil-leader/set-key-for-mode 'omnisharp-mode "f") 'omnisharp-find-usages) ;;(setq evil-normal-state-cursor 'hollow) 
 ;;(setq evil-insert-state-cursor '("red" hbar))
 (define-key key-translation-map (kbd "$") (kbd "#"))
@@ -241,8 +277,6 @@
 
 (require 'w3m-load)
 
-
-
 (define-key evil-normal-state-map (kbd "<SPC> rt") (lambda() (interactive) (omnisharp-unit-test "single")))
 (define-key evil-normal-state-map (kbd "<SPC> rf") (lambda() (interactive) (omnisharp-unit-test "fixture")))
 (define-key evil-normal-state-map (kbd "<SPC> ra") (lambda() (interactive) (omnisharp-unit-test "all")))
@@ -274,8 +308,8 @@
 
 (defun omnisharp-fix-usings(mode)
   (interactive)
-  
 )
+
 (add-to-list 'compilation-error-regexp-alist
 		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
 
