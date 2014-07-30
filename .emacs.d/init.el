@@ -159,6 +159,7 @@
  '(company-idle-delay 0.03)
  '(company-minimum-prefix-length 1)
  '(company-show-numbers t)
+ '(helm-ag-insert-at-point (quote word))
  '(omnisharp-auto-complete-want-documentation nil)
  '(safe-local-variable-values (quote ((eval when (fboundp (quote rainbow-mode)) (rainbow-mode 1)))))
  '(savehist-mode t))
@@ -185,7 +186,8 @@
 
 (setq key-chord-one-key-delay 0.2)
 (setq key-chord-two-keys-delay 0.15)
-
+(define-key helm-map (kbd "C-j") 'helm-next-line)
+(define-key helm-map (kbd "C-k") 'helm-previous-line)
 (key-chord-define evil-insert-state-map "jk"  'evil-normal-state) 
 (key-chord-define evil-replace-state-map "jk"  'evil-normal-state) 
 (key-chord-define evil-insert-state-map "kj"  'evil-normal-state) 
