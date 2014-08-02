@@ -243,6 +243,8 @@
 	  (define-key eww-mode-map (read-kbd-macro "d") 'evil-scroll-down)
 	  (define-key eww-mode-map (read-kbd-macro "u") 'evil-scroll-up)
 
+	  (define-key eww-mode-map (read-kbd-macro "C-d") 'evil-scroll-down)
+	  (define-key eww-mode-map (read-kbd-macro "C-u") 'evil-scroll-up)
 	  ;; Use sane keybindings for forward/back
 	  (define-key eww-mode-map (read-kbd-macro "b") 'eww-back-url)
 	  (define-key eww-mode-map (read-kbd-macro "<backspace>") 'eww-back-url)
@@ -260,6 +262,10 @@
 (require 'twittering-mode)
 (define-key twittering-mode-map (kbd "C-d") 'twittering-scroll-up)
 (define-key twittering-mode-map (kbd "C-u") 'twittering-scroll-down)
+(define-key twittering-mode-map (read-kbd-macro "/") 'evil-search-forward)
+(define-key twittering-mode-map (read-kbd-macro "?") 'evil-search-backward)
+(define-key twittering-mode-map (read-kbd-macro "n") 'evil-search-next)
+(define-key twittering-mode-map (read-kbd-macro "N") 'evil-search-previous)
 (defun company-complete-selection-insert-key(company-key)
   (company-complete-selection)
   (insert company-key))
