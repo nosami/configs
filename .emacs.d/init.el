@@ -57,7 +57,6 @@
 (require 'package)
 (package-initialize)
 (setq evil-want-C-u-scroll t)
-(require 'evil-leader)
 (require 'evil-jumper)
 (global-evil-leader-mode)
 (evil-mode 1)
@@ -96,8 +95,8 @@
   (interactive)
   (scroll-down 2))
 
-(global-set-key (kbd "<mouse-4>") 'scroll-down-n-lines) ;
-(global-set-key (kbd "<mouse-5>") 'scroll-up-n-lines) ;
+(global-set-key (kbd "<mouse-4>") 'scroll-down-n-lines)
+(global-set-key (kbd "<mouse-5>") 'scroll-up-n-lines)
 
 (defun toggle-fullscreen ()
   "Toggle full screen"
@@ -186,8 +185,7 @@
 
 (setq key-chord-one-key-delay 0.2)
 (setq key-chord-two-keys-delay 0.15)
-(define-key helm-map (kbd "C-j") 'helm-next-line)
-(define-key helm-map (kbd "C-k") 'helm-previous-line)
+(define-key evil-normal-state-map (kbd "<SPC> a") 'helm-ag)
 (key-chord-define evil-insert-state-map "jk"  'evil-normal-state) 
 (key-chord-define evil-replace-state-map "jk"  'evil-normal-state) 
 (key-chord-define evil-insert-state-map "kj"  'evil-normal-state) 
@@ -218,6 +216,50 @@
 
 (define-key company-active-map (kbd "C-j") 'company-select-next-or-abort)
 (define-key company-active-map (kbd "C-k") 'company-select-previous-or-abort)
+
+(define-key evil-normal-state-map (kbd "<SPC> <SPC>") 'ace-jump-mode)
+(mapc (lambda (mode) (evil-set-initial-state mode 'emacs))
+      '(shell-mode
+	git-rebase-mode
+	term-mode
+	magit-branch-manager-mode
+	eww-mode
+	))
+
+(eval-after-load "eww"
+  '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
+	  (define-key eww-mode-map (kbd "o") 'eww)
+	  ;; Use vim kebindings for searching
+	  (define-key eww-mode-map (read-kbd-macro "/") 'evil-search-forward)
+	  (define-key eww-mode-map (read-kbd-macro "?") 'evil-search-backward)
+	  (define-key eww-mode-map (read-kbd-macro "n") 'evil-search-next)
+	  (define-key eww-mode-map (read-kbd-macro "N") 'evil-search-previous)
+
+	  ;; Use vim keybindings for scrolling
+	  (define-key eww-mode-map (read-kbd-macro "j") 'evil-next-line)
+	  (define-key eww-mode-map (read-kbd-macro "k") 'evil-previous-line)
+	  (define-key eww-mode-map (read-kbd-macro "C-j") (lambda () (interactive) (next-line 2) (scroll-up 2)))
+	  (define-key eww-mode-map (read-kbd-macro "C-k") (lambda () (interactive) (scroll-down 2) (previous-line 2)))
+	  (define-key eww-mode-map (read-kbd-macro "d") 'evil-scroll-down)
+	  (define-key eww-mode-map (read-kbd-macro "u") 'evil-scroll-up)
+
+	  ;; Use sane keybindings for forward/back
+	  (define-key eww-mode-map (read-kbd-macro "b") 'eww-back-url)
+	  (define-key eww-mode-map (read-kbd-macro "<backspace>") 'eww-back-url)
+	  (define-key eww-mode-map (read-kbd-macro "S-<backspace>") 'eww-forward-url)
+          (define-key eww-mode-map "F" 'eww-lnum-universal)))
+
+
+;; (require 'w3m-load)
+;; (define-key w3m-mode-map (kbd "f") 'w3m-lnum-follow)
+;; (define-key w3m-mode-map (kbd "o") 'w3m-goto-url)
+;; (define-key w3m-mode-map (kbd "<SPC>") 'ace-jump-mode)
+;; (define-key w3m-mode-map (kbd "C-u") 'w3m-scroll-down-or-previous-url)
+;; (define-key w3m-mode-map (kbd "C-d") 'w3m-scroll-up-or-next-url)
+;; (define-key w3m-mode-map (kbd "C-u") 'w3m-view-previous-page)
+(require 'twittering-mode)
+(define-key twittering-mode-map (kbd "C-d") 'twittering-scroll-up)
+(define-key twittering-mode-map (kbd "C-u") 'twittering-scroll-down)
 (defun company-complete-selection-insert-key(company-key)
   (company-complete-selection)
   (insert company-key))
@@ -277,7 +319,7 @@
 (global-highlight-parentheses-mode t)
 (setq ring-bell-function 'ignore)
 
-(require 'w3m-load)
+;; (require 'w3m-load)
 
 (define-key evil-normal-state-map (kbd "<SPC> rt") (lambda() (interactive) (omnisharp-unit-test "single")))
 (define-key evil-normal-state-map (kbd "<SPC> rf") (lambda() (interactive) (omnisharp-unit-test "fixture")))
@@ -324,3 +366,11 @@
 		     (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
     
     (compile (concat build-command " && " test-command))))
+(require 'helm-config)
+(require 'helm-command)
+(require 'helm-elisp)
+(require 'helm-misc)
+;; (require 'helm-descbinds)
+
+(define-key helm-map (kbd "C-j") 'helm-next-line)
+(define-key helm-map (kbd "C-k") 'helm-previous-line)
