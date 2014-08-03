@@ -219,23 +219,27 @@
 
 (define-key evil-normal-state-map (kbd "<SPC> <SPC>") 'ace-jump-mode)
 (mapc (lambda (mode) (evil-set-initial-state mode 'emacs))
-      '(shell-mode
+      '(eshell-mode
 	git-rebase-mode
 	term-mode
 	magit-branch-manager-mode
 	eww-mode
 	))
 
+;;change default browser for 'browse-url' to eww
+(setq browse-url-browser-function 'eww-browse-url)
+
 (eval-after-load "eww"
   '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
 	  (define-key eww-mode-map (kbd "o") 'eww)
-	  ;; Use vim kebindings for searching
+	  
 	  (define-key eww-mode-map (read-kbd-macro "/") 'evil-search-forward)
 	  (define-key eww-mode-map (read-kbd-macro "?") 'evil-search-backward)
 	  (define-key eww-mode-map (read-kbd-macro "n") 'evil-search-next)
 	  (define-key eww-mode-map (read-kbd-macro "N") 'evil-search-previous)
+	  (define-key eww-mode-map (read-kbd-macro "r") 'eww-reload)
 
-	  ;; Use vim keybindings for scrolling
+	  
 	  (define-key eww-mode-map (read-kbd-macro "j") 'evil-next-line)
 	  (define-key eww-mode-map (read-kbd-macro "k") 'evil-previous-line)
 	  (define-key eww-mode-map (read-kbd-macro "C-j") (lambda () (interactive) (next-line 2) (scroll-up 2)))
@@ -245,7 +249,7 @@
 
 	  (define-key eww-mode-map (read-kbd-macro "C-d") 'evil-scroll-down)
 	  (define-key eww-mode-map (read-kbd-macro "C-u") 'evil-scroll-up)
-	  ;; Use sane keybindings for forward/back
+	  
 	  (define-key eww-mode-map (read-kbd-macro "b") 'eww-back-url)
 	  (define-key eww-mode-map (read-kbd-macro "<backspace>") 'eww-back-url)
 	  (define-key eww-mode-map (read-kbd-macro "S-<backspace>") 'eww-forward-url)
@@ -266,6 +270,7 @@
 (define-key twittering-mode-map (read-kbd-macro "?") 'evil-search-backward)
 (define-key twittering-mode-map (read-kbd-macro "n") 'evil-search-next)
 (define-key twittering-mode-map (read-kbd-macro "N") 'evil-search-previous)
+
 (defun company-complete-selection-insert-key(company-key)
   (company-complete-selection)
   (insert company-key))
