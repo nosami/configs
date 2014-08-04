@@ -364,7 +364,7 @@
 
 (define-key company-active-map (kbd "<tab>") 'tab-indent-or-complete)
 
-(defun omnisharp-fix-usings()
+(defun omnisharp-fix-usings ()
   (interactive)
   (save-buffer)
   (omnisharp-fix-usings-worker
@@ -379,17 +379,26 @@
          (omnisharp-post-message-curl-as-json
           (concat (omnisharp-get-host) "fixusings")
           (omnisharp--get-common-params))))
+
     (omnisharp--set-buffer-contents-to
      filename
      (cdr (assoc 'Buffer json-result))
      current-line
-     current-column)))
+     current-column)
+
+    (omnisharp--write-quickfixes-to-compilation-buffer
+      (omnisharp--vector-to-list
+                            (cdr (assoc 'AmbiguousResults json-result)))
+      omnisharp--find-implementations-buffer-name
+      omnisharp-find-implementations-header)
+    
+    ))
 
 
 (add-to-list 'compilation-error-regexp-alist
 		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
 
-(defun omnisharp-unit-test(mode)
+(defun omnisharp-unit-test (mode)
   (interactive)
   (let ((build-command (omnisharp-post-message-curl (concat (omnisharp-get-host) "buildcommand") (omnisharp--get-common-params)))
 	(test-command (cdr (assoc 'TestCommand
