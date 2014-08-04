@@ -202,7 +202,7 @@
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> b") 'omnisharp-build-in-emacs)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> cf") 'omnisharp-code-format)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> nm") 'omnisharp-rename-interactively)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fu") 'omnisharp-find-usages)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fu") 'omnisharp-helm-find-usages)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ss") 'omnisharp-start-omnisharp-server)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> sp") 'omnisharp-stop-omnisharp-server)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fi") 'omnisharp-find-implementations)
@@ -272,6 +272,7 @@
 (define-key twittering-mode-map (read-kbd-macro "?") 'evil-search-backward)
 (define-key twittering-mode-map (read-kbd-macro "n") 'evil-search-next)
 (define-key twittering-mode-map (read-kbd-macro "N") 'evil-search-previous)
+(setq twittering-use-master-password t)
 
 (defun company-complete-selection-insert-key(company-key)
   (company-complete-selection)
@@ -363,9 +364,27 @@
 
 (define-key company-active-map (kbd "<tab>") 'tab-indent-or-complete)
 
-(defun omnisharp-fix-usings(mode)
+(defun omnisharp-fix-usings()
   (interactive)
-)
+  (save-buffer)
+  (omnisharp-fix-usings-worker
+   (buffer-file-name)
+   (line-number-at-pos)
+   (omnisharp--current-column)))
+
+(defun omnisharp-fix-usings-worker (filename
+				    current-line
+				    current-column)
+  (let ((json-result
+         (omnisharp-post-message-curl-as-json
+          (concat (omnisharp-get-host) "fixusings")
+          (omnisharp--get-common-params))))
+    (omnisharp--set-buffer-contents-to
+     filename
+     (cdr (assoc 'Buffer json-result))
+     current-line
+     current-column)))
+
 
 (add-to-list 'compilation-error-regexp-alist
 		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
@@ -379,6 +398,7 @@
 		     (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
     
     (compile (concat build-command " && " test-command))))
+
 (require 'helm-config)
 (require 'helm-command)
 (require 'helm-elisp)
