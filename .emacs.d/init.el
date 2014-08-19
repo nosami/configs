@@ -58,7 +58,9 @@
 (package-initialize)
 (setq evil-want-C-u-scroll t)
 (require 'evil-jumper)
+(require 'evil-visualstar)
 (global-evil-leader-mode)
+(global-evil-tabs-mode t)
 (evil-mode 1)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -154,13 +156,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(company-frontends (quote (company-pseudo-tooltip-frontend company-echo-metadata-frontend)))
+ '(company-frontends
+   (quote
+    (company-pseudo-tooltip-frontend company-echo-metadata-frontend)))
  '(company-idle-delay 0.03)
  '(company-minimum-prefix-length 1)
  '(company-show-numbers t)
  '(helm-ag-insert-at-point (quote word))
  '(omnisharp-auto-complete-want-documentation nil)
- '(safe-local-variable-values (quote ((eval when (fboundp (quote rainbow-mode)) (rainbow-mode 1)))))
+ '(omnisharp-company-sort-results t)
+ '(safe-local-variable-values
+   (quote
+    ((eval when
+	   (fboundp
+	    (quote rainbow-mode))
+	   (rainbow-mode 1)))))
  '(savehist-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -190,6 +200,7 @@
 (key-chord-define evil-replace-state-map "jk"  'evil-normal-state) 
 (key-chord-define evil-insert-state-map "kj"  'evil-normal-state) 
 (key-chord-define evil-replace-state-map "kj"  'evil-normal-state) 
+(key-chord-define global-map "fj" 'smex)
 ;; (key-chord-define evil-insert-state-map "
 ;; (define-key evil-insert-state-map (kbd "j k") 'evil-normal-state)
 
@@ -207,6 +218,9 @@
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> sp") 'omnisharp-stop-omnisharp-server)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fi") 'omnisharp-find-implementations)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> x") 'omnisharp-fix-code-issue-at-point)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fx") 'omnisharp-fix-usings)
+(define-key evil-normal-state-map (kbd "M-J") 'flycheck-next-error)
+(define-key evil-normal-state-map (kbd "M-K") 'flycheck-previous-error)
 
 (define-key evil-normal-state-map (kbd "<SPC> cc") 'evilnc-comment-or-uncomment-lines)
 (define-key evil-visual-state-map (kbd "<SPC> cc") 'evilnc-comment-or-uncomment-lines)
@@ -272,6 +286,7 @@
 (define-key twittering-mode-map (read-kbd-macro "?") 'evil-search-backward)
 (define-key twittering-mode-map (read-kbd-macro "n") 'evil-search-next)
 (define-key twittering-mode-map (read-kbd-macro "N") 'evil-search-previous)
+(define-key twittering-mode-map (kbd "<tab>") 'twittering-goto-next-uri)
 (setq twittering-use-master-password t)
 
 (defun company-complete-selection-insert-key(company-key)
@@ -294,9 +309,7 @@
 (define-key company-active-map (kbd "<SPC>") nil)
 (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
 (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
-;;(define-key evil-normal-state-map(evil-leader/set-key-for-mode 'omnisharp-mode "f") 'omnisharp-find-usages) ;;(setq evil-normal-state-cursor 'hollow) 
-;;(setq evil-insert-state-cursor '("red" hbar))
-(define-key key-translation-map (kbd "$") (kbd "#"))
+
 (global-set-key (kbd "C-x f") 'helm-for-files)
 (require 'smex) ; Not needed if you use package.el
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
@@ -380,17 +393,21 @@
           (concat (omnisharp-get-host) "fixusings")
           (omnisharp--get-common-params))))
 
+
+    ;; (message ambiguous-results)
     (omnisharp--set-buffer-contents-to
      filename
      (cdr (assoc 'Buffer json-result))
      current-line
      current-column)
 
-    (omnisharp--write-quickfixes-to-compilation-buffer
-      (omnisharp--vector-to-list
-                            (cdr (assoc 'AmbiguousResults json-result)))
-      omnisharp--find-implementations-buffer-name
-      omnisharp-find-implementations-header)
+    (ambiguous-results (cdr (assoc 'AmbiguousResults json-result)))
+
+    ;; (omnisharp--write-quickfixes-to-compilation-buffer
+    ;;  (omnisharp--vector-to-list 'ambiguous-results)
+      
+    ;;  omnisharp--find-implementations-buffer-name
+    ;;  omnisharp-find-implementations-header)
     
     ))
 
