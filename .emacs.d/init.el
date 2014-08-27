@@ -433,3 +433,34 @@
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
+
+(defun omnisharp-fix-usings ()
+  (interactive)
+  (save-buffer)
+  (omnisharp-fix-usings-worker
+   (buffer-file-name)
+   (line-number-at-pos)
+   (omnisharp--current-column)))
+
+
+(defun omnisharp-fix-usings-worker (filename
+				    current-line
+				    current-column)
+  (let ((json-result
+         (omnisharp-post-message-curl-as-json
+          (concat (omnisharp-get-host) "fixusings")
+          (omnisharp--get-common-params))))
+
+    (omnisharp--set-buffer-contents-to
+     filename
+     (cdr (assoc 'Buffer json-result))
+     current-line
+     current-column)
+
+    (setq ambiguous-results (omnisharp--vector-to-list
+			     (cdr (assoc 'AmbiguousResults json-result))))
+    (if ambiguous-results (omnisharp--write-quickfixes-to-compilation-buffer
+			    ambiguous-results
+			    omnisharp--find-implementations-buffer-name
+			    omnisharp-find-implementations-header)
+			   )))
