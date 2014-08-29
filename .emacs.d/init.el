@@ -312,7 +312,7 @@
 (define-key company-active-map (kbd "<SPC>") nil)
 (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
 (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
-
+(define-key company-active-map (kbd "C-w") 'evil-delete-backward-word)
 (global-set-key (kbd "C-x f") 'helm-for-files)
 (require 'smex) ; Not needed if you use package.el
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
@@ -380,53 +380,8 @@
 
 (define-key company-active-map (kbd "<tab>") 'tab-indent-or-complete)
 
-(defun omnisharp-fix-usings ()
-  (interactive)
-  (save-buffer)
-  (omnisharp-fix-usings-worker
-   (buffer-file-name)
-   (line-number-at-pos)
-   (omnisharp--current-column)))
-
-(defun omnisharp-fix-usings-worker (filename
-				    current-line
-				    current-column)
-  (let ((json-result
-         (omnisharp-post-message-curl-as-json
-          (concat (omnisharp-get-host) "fixusings")
-          (omnisharp--get-common-params))))
-
-
-    ;; (message ambiguous-results)
-    (omnisharp--set-buffer-contents-to
-     filename
-     (cdr (assoc 'Buffer json-result))
-     current-line
-     current-column)
-
-    (ambiguous-results (cdr (assoc 'AmbiguousResults json-result)))
-
-    ;; (omnisharp--write-quickfixes-to-compilation-buffer
-    ;;  (omnisharp--vector-to-list 'ambiguous-results)
-      
-    ;;  omnisharp--find-implementations-buffer-name
-    ;;  omnisharp-find-implementations-header)
-    
-    ))
-
-
 (add-to-list 'compilation-error-regexp-alist
 		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
-
-(defun omnisharp-unit-test (mode)
-  (interactive)
-  (let ((build-command (omnisharp-post-message-curl (concat (omnisharp-get-host) "buildcommand") (omnisharp--get-common-params)))
-	(test-command (cdr (assoc 'TestCommand
-		    (omnisharp-post-message-curl-as-json
-		     (concat (omnisharp-get-host) "gettestcontext") 
-		     (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
-    
-    (compile (concat build-command " && " test-command))))
 
 (require 'helm-config)
 (require 'helm-command)
@@ -436,34 +391,3 @@
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
-
-(defun omnisharp-fix-usings ()
-  (interactive)
-  (save-buffer)
-  (omnisharp-fix-usings-worker
-   (buffer-file-name)
-   (line-number-at-pos)
-   (omnisharp--current-column)))
-
-
-(defun omnisharp-fix-usings-worker (filename
-				    current-line
-				    current-column)
-  (let ((json-result
-         (omnisharp-post-message-curl-as-json
-          (concat (omnisharp-get-host) "fixusings")
-          (omnisharp--get-common-params))))
-
-    (omnisharp--set-buffer-contents-to
-     filename
-     (cdr (assoc 'Buffer json-result))
-     current-line
-     current-column)
-
-    (setq ambiguous-results (omnisharp--vector-to-list
-			     (cdr (assoc 'AmbiguousResults json-result))))
-    (if ambiguous-results (omnisharp--write-quickfixes-to-compilation-buffer
-			    ambiguous-results
-			    omnisharp--find-implementations-buffer-name
-			    omnisharp-find-implementations-header)
-			   )))
