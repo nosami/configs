@@ -8,7 +8,7 @@ endif
 
 " Required:
 call neobundle#rc(expand('~/.vim/bundle/'))
-
+"let g:syntastic_cursor_column = 0
 " Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -39,7 +39,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-vinegar'
-
+NeoBundle 'kchmck/vim-coffee-script'
 
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
@@ -180,11 +180,14 @@ nnoremap <leader>fi :OmniSharpFindImplementations<cr>
 nnoremap <leader>ft :OmniSharpFindType<cr>
 nnoremap <leader>fs :OmniSharpFindSymbol<cr>
 nnoremap <leader>fu :OmniSharpFindUsages<cr>
-nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
+nnoremap <leader>fm :OmniSharpFindMembers<cr>
 nnoremap <leader>x  :OmniSharpFixIssue<cr>
 nnoremap <leader>fx :OmniSharpFixUsings<cr>
 nnoremap <leader>tt :OmniSharpTypeLookup<cr>
 nnoremap <leader>dc :OmniSharpDocumentation<cr>
+
+nnoremap <C-K> :OmniSharpNavigateUp<cr>
+nnoremap <C-J> :OmniSharpNavigateDown<cr>
 
 "show type information automatically when the cursor stops moving
 autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()

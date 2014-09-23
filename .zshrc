@@ -72,8 +72,10 @@ alias nunit='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-conso
 alias nunit-console.exe='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias warmup='mono /Library/Ruby/Gems/2.0.0/gems/warmup-0.6.6.0/bin/warmup.exe'
 alias omni='cd ~/.vim/bundle/Omnisharp/server/OmniSharp'
+alias atom='cd ~/.atom/packages/atom-sharper'
 alias src='cd ~/src'
 alias v='vim .'
+alias e='/Applications/Emacs.app/Contents/MacOS/Emacs'
 alias updatedb='/usr/libexec/locate.updatedb'
 # Customize to your needs...
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:~/src/OpenIDEBak/ReleaseBinaries:$PATH

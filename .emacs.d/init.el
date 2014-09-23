@@ -1,4 +1,3 @@
-(message "-")
 ;; Allow hash to be entered on UK mac keyboard
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
 
@@ -65,7 +64,6 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (tool-bar-mode -1)
-(message "0")
 (load-theme 'monokai t)
 ;;(if (not (display-graphic-p))
 ;;  (set-background-color "ARGBBB000000"))
@@ -110,11 +108,9 @@
 (global-set-key (kbd "C-<return>") 'toggle-fullscreen)
 
 (setq compilation-ask-about-save nil)
-(message "0a")
 
 (require 'company)
 (require 'csharp-mode)
-(require 'omnisharp)
 (defun my-csharp-mode ()
   (add-to-list 'company-backends 'company-omnisharp)
   (omnisharp-mode)
@@ -123,20 +119,15 @@
   (turn-on-eldoc-mode))
 
 (setq omnisharp-company-strip-trailing-brackets nil)
-(message "0b")
 (add-hook 'csharp-mode-hook 'my-csharp-mode)
-(message "0bb")
 
-(message "0d")
 (add-hook 'emacs-lisp-mode 'company-mode)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
-(message "0e")
 (setq company-begin-commands '(self-insert-command))
 (add-hook 'after-init-hook 'global-flycheck-mode)
   
-(message "0c")
 
 (add-to-list 'company-backends 'company-omnisharp)
 
@@ -181,7 +172,6 @@
  ;; If there is more than one, they won't work right.
  '(company-tooltip-annotation ((t (:inherit company-tooltip :foreground "yellow")))))
 (global-hl-line-mode 1)
-(message "1")
 
 ;Load up certain files every time
 ;(find-file "~/emacs/dotemacs.el")
@@ -211,17 +201,6 @@
 (define-key evil-normal-state-map (kbd "<SPC> e") 'find-file)
 (define-key evil-normal-state-map (kbd "<SPC> w") 'evil-write)
 
-(evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> b") 'omnisharp-build-in-emacs)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> cf") 'omnisharp-code-format)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> nm") 'omnisharp-rename-interactively)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fu") 'omnisharp-helm-find-usages)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ss") 'omnisharp-start-omnisharp-server)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> sp") 'omnisharp-stop-omnisharp-server)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fi") 'omnisharp-find-implementations)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> x") 'omnisharp-fix-code-issue-at-point)
-(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fx") 'omnisharp-fix-usings)
 (define-key evil-normal-state-map (kbd "M-J") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "M-K") 'flycheck-previous-error)
 
@@ -301,6 +280,7 @@
   (company-complete))
 
 ;; better than vim-vinegar
+(require 'dired)
 (define-key evil-normal-state-map (kbd "-") 'dired-jump)
 (define-key dired-mode-map (kbd "-") 'dired-up-directory)
 
@@ -319,6 +299,8 @@
                   ; when Smex is auto-initialized on its first run.
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key [M-left] 'elscreen-previous)
+(global-set-key [M-right] 'elscreen-next)
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
@@ -391,3 +373,18 @@
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
+
+(require 'omnisharp)
+
+(evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> b") 'omnisharp-build-in-emacs)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> cf") 'omnisharp-code-format)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> nm") 'omnisharp-rename-interactively)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fu") 'omnisharp-helm-find-usages)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<M-RET>") 'omnisharp-run-code-action-refactoring)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ss") 'omnisharp-start-omnisharp-server)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> sp") 'omnisharp-stop-omnisharp-server)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fi") 'omnisharp-find-implementations)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> x") 'omnisharp-fix-code-issue-at-point)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fx") 'omnisharp-fix-usings)
+(evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> o") 'omnisharp-auto-complete-overrides)
