@@ -52,17 +52,28 @@
 		(add-to-list 'new-load-path var)
 		(setq load-path (append new-load-path old-path))))))
 
+(defun comment-or-uncomment-region-or-line ()
+    "Comments or uncomments the region or the current line if there's no active region."
+    (interactive)
+    (let (beg end)
+        (if (region-active-p)
+            (setq beg (region-beginning) end (region-end))
+            (setq beg (line-beginning-position) end (line-end-position)))
+        (comment-or-uncomment-region beg end)))
+
 (set-scroll-bar-mode nil)
 (require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
+
 (setq evil-want-C-u-scroll t)
 (require 'evil-jumper)
 (require 'evil-visualstar)
 (global-evil-leader-mode)
 (global-evil-tabs-mode t)
 (evil-mode 1)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 (tool-bar-mode -1)
 (load-theme 'monokai t)
 ;;(if (not (display-graphic-p))
@@ -197,17 +208,17 @@
 ;; (define-key evil-insert-state-map (kbd "j k") 'evil-normal-state)
 
 ;; (define-key evil-insert-state-map (kbd "k j") 'evil-normal-state)
-(define-key evil-normal-state-map (kbd "C-p") 'helm-for-files)
+(define-key evil-normal-state-map (kbd "C-p") 'helm-mini)
 (define-key evil-normal-state-map (kbd "<SPC> e") 'find-file)
 (define-key evil-normal-state-map (kbd "<SPC> w") 'evil-write)
 
 (define-key evil-normal-state-map (kbd "M-J") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "M-K") 'flycheck-previous-error)
 
-(define-key evil-normal-state-map (kbd "<SPC> cc") 'evilnc-comment-or-uncomment-lines)
-(define-key evil-visual-state-map (kbd "<SPC> cc") 'evilnc-comment-or-uncomment-lines)
-(define-key evil-normal-state-map (kbd "<SPC> c <SPC>") 'evilnc-comment-or-uncomment-lines)
-(define-key evil-visual-state-map (kbd "<SPC> c <SPC>") 'evilnc-comment-or-uncomment-lines)
+(define-key evil-normal-state-map (kbd "<SPC> cc") 'comment-or-uncomment-region-or-line)
+(define-key evil-visual-state-map (kbd "<SPC> cc") 'comment-or-uncomment-region-or-line)
+(define-key evil-normal-state-map (kbd "<SPC> c <SPC>") 'comment-or-uncomment-region-or-line)
+(define-key evil-visual-state-map (kbd "<SPC> c <SPC>") 'comment-or-uncomment-region-or-line)
 (define-key evil-normal-state-map (kbd "<SPC> cn") 'next-error)
 (define-key evil-normal-state-map (kbd "<SPC> cp") 'previous-error)
 (define-key evil-insert-state-map (kbd "<RET>") 'newline-and-indent)
@@ -333,11 +344,6 @@
 
 ;; (require 'w3m-load)
 
-(define-key evil-normal-state-map (kbd "<SPC> rt") (lambda() (interactive) (omnisharp-unit-test "single")))
-(define-key evil-normal-state-map (kbd "<SPC> rf") (lambda() (interactive) (omnisharp-unit-test "fixture")))
-(define-key evil-normal-state-map (kbd "<SPC> ra") (lambda() (interactive) (omnisharp-unit-test "all")))
-(define-key evil-normal-state-map (kbd "<SPC> rl") 'recompile)
-
 (defun check-expansion ()
   (save-excursion
     (if (looking-at "\\_>") t
@@ -407,3 +413,23 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> x") 'omnisharp-fix-code-issue-at-point)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> fx") 'omnisharp-fix-usings)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> o") 'omnisharp-auto-complete-overrides)
+
+(define-key evil-normal-state-map (kbd "<SPC> rt") (lambda() (interactive) (omnisharp-unit-test "single")))
+(define-key evil-normal-state-map (kbd "<SPC> rf") (lambda() (interactive) (omnisharp-unit-test "fixture")))
+(define-key evil-normal-state-map (kbd "<SPC> ra") (lambda() (interactive) (omnisharp-unit-test "all")))
+(define-key evil-normal-state-map (kbd "<SPC> rl") 'recompile)
+
+(defun omnisharp-unit-test (mode)
+  "Run tests after building the solution. Mode should be one of 'single', 'fixture' or 'all'" 
+  (interactive)
+  (let ((build-command
+	 (omnisharp-post-message-curl
+	  (concat (omnisharp-get-host) "buildcommand") (omnisharp--get-common-params)))
+
+	(test-command
+	 (cdr (assoc 'TestCommand
+		     (omnisharp-post-message-curl-as-json
+		      (concat (omnisharp-get-host) "gettestcontext") 
+		      (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
+    
+    (compile (concat build-command " && " test-command))))
