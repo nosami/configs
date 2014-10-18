@@ -44,13 +44,13 @@
 ;Make sure custom stuff goes to the front of the list
 (let ((default-directory "~/src/elisp"))
   (let ((old-path (copy-sequence load-path))
-		(new-load-path nil))
-	(normal-top-level-add-to-load-path '("."))
-	(normal-top-level-add-subdirs-to-load-path)
-	(dolist (var load-path)
-	  (unless (memql var old-path)
-		(add-to-list 'new-load-path var)
-		(setq load-path (append new-load-path old-path))))))
+                (new-load-path nil))
+        (normal-top-level-add-to-load-path '("."))
+        (normal-top-level-add-subdirs-to-load-path)
+        (dolist (var load-path)
+          (unless (memql var old-path)
+                (add-to-list 'new-load-path var)
+                (setq load-path (append new-load-path old-path))))))
 
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
@@ -172,9 +172,9 @@
  '(safe-local-variable-values
    (quote
     ((eval when
-	   (fboundp
-	    (quote rainbow-mode))
-	   (rainbow-mode 1)))))
+           (fboundp
+            (quote rainbow-mode))
+           (rainbow-mode 1)))))
  '(savehist-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -229,39 +229,39 @@
 (define-key evil-normal-state-map (kbd "<SPC> <SPC>") 'ace-jump-mode)
 (mapc (lambda (mode) (evil-set-initial-state mode 'emacs))
       '(eshell-mode
-	git-rebase-mode
-	term-mode
-	magit-branch-manager-mode
-	eww-mode
-	))
+        git-rebase-mode
+        term-mode
+        magit-branch-manager-mode
+        eww-mode
+        ))
 
 ;;change default browser for 'browse-url' to eww
 (setq browse-url-browser-function 'eww-browse-url)
 
 (eval-after-load "eww"
   '(progn (define-key eww-mode-map "f" 'eww-lnum-follow)
-	  (define-key eww-mode-map (kbd "o") 'eww)
-	  
-	  (define-key eww-mode-map (read-kbd-macro "/") 'evil-search-forward)
-	  (define-key eww-mode-map (read-kbd-macro "?") 'evil-search-backward)
-	  (define-key eww-mode-map (read-kbd-macro "n") 'evil-search-next)
-	  (define-key eww-mode-map (read-kbd-macro "N") 'evil-search-previous)
-	  (define-key eww-mode-map (read-kbd-macro "r") 'eww-reload)
+          (define-key eww-mode-map (kbd "o") 'eww)
+          
+          (define-key eww-mode-map (read-kbd-macro "/") 'evil-search-forward)
+          (define-key eww-mode-map (read-kbd-macro "?") 'evil-search-backward)
+          (define-key eww-mode-map (read-kbd-macro "n") 'evil-search-next)
+          (define-key eww-mode-map (read-kbd-macro "N") 'evil-search-previous)
+          (define-key eww-mode-map (read-kbd-macro "r") 'eww-reload)
 
-	  
-	  (define-key eww-mode-map (read-kbd-macro "j") 'evil-next-line)
-	  (define-key eww-mode-map (read-kbd-macro "k") 'evil-previous-line)
-	  (define-key eww-mode-map (read-kbd-macro "C-j") (lambda () (interactive) (next-line 2) (scroll-up 2)))
-	  (define-key eww-mode-map (read-kbd-macro "C-k") (lambda () (interactive) (scroll-down 2) (previous-line 2)))
-	  (define-key eww-mode-map (read-kbd-macro "d") 'evil-scroll-down)
-	  (define-key eww-mode-map (read-kbd-macro "u") 'evil-scroll-up)
+          
+          (define-key eww-mode-map (read-kbd-macro "j") 'evil-next-line)
+          (define-key eww-mode-map (read-kbd-macro "k") 'evil-previous-line)
+          (define-key eww-mode-map (read-kbd-macro "C-j") (lambda () (interactive) (next-line 2) (scroll-up 2)))
+          (define-key eww-mode-map (read-kbd-macro "C-k") (lambda () (interactive) (scroll-down 2) (previous-line 2)))
+          (define-key eww-mode-map (read-kbd-macro "d") 'evil-scroll-down)
+          (define-key eww-mode-map (read-kbd-macro "u") 'evil-scroll-up)
 
-	  (define-key eww-mode-map (read-kbd-macro "C-d") 'evil-scroll-down)
-	  (define-key eww-mode-map (read-kbd-macro "C-u") 'evil-scroll-up)
-	  
-	  (define-key eww-mode-map (read-kbd-macro "b") 'eww-back-url)
-	  (define-key eww-mode-map (read-kbd-macro "<backspace>") 'eww-back-url)
-	  (define-key eww-mode-map (read-kbd-macro "S-<backspace>") 'eww-forward-url)
+          (define-key eww-mode-map (read-kbd-macro "C-d") 'evil-scroll-down)
+          (define-key eww-mode-map (read-kbd-macro "C-u") 'evil-scroll-up)
+          
+          (define-key eww-mode-map (read-kbd-macro "b") 'eww-back-url)
+          (define-key eww-mode-map (read-kbd-macro "<backspace>") 'eww-back-url)
+          (define-key eww-mode-map (read-kbd-macro "S-<backspace>") 'eww-forward-url)
           (define-key eww-mode-map "F" 'eww-lnum-universal)))
 
 
@@ -349,8 +349,8 @@
     (if (looking-at "\\_>") t
       (backward-char 1)
       (if (looking-at "\\.") t
-	(backward-char 1)
-	(if (looking-at "->") t nil)))))
+        (backward-char 1)
+        (if (looking-at "->") t nil)))))
 
 (defun do-yas-expand ()
   (let ((yas/fallback-behavior 'return-nil))
@@ -361,15 +361,15 @@
   (if (minibufferp)
       (minibuffer-complete)
     (if (or (not yas/minor-mode)
-	    (null (do-yas-expand)))
-	(if (check-expansion)
-	    (company-complete-common)
-	  (indent-for-tab-command)))))
+            (null (do-yas-expand)))
+        (if (check-expansion)
+            (company-complete-common)
+          (indent-for-tab-command)))))
 
 (define-key company-active-map (kbd "<tab>") 'tab-indent-or-complete)
 
 (add-to-list 'compilation-error-regexp-alist
-		 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
+                 '(" in \\(.+\\):\\([1-9][0-9]+\\)" 1 2))
 
 (require 'helm-config)
 (require 'helm-command)
@@ -379,6 +379,16 @@
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
+
+(defun dos2unix (buffer)
+  "Automate M-% C-q C-m RET C-q C-j RET"
+  (interactive "*b")
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward (string ?\C-m) nil t)
+      (replace-match "" nil t)))
+  nil
+  )
 
 ;; esc quits
 (defun minibuffer-keyboard-quit ()
@@ -400,7 +410,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (global-set-key [escape] 'evil-exit-emacs-state)
 
 (require 'omnisharp)
-
+(setq omnisharp-company-do-template-completion t)
 (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> b") 'omnisharp-build-in-emacs)
 (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> cf") 'omnisharp-code-format)
@@ -419,17 +429,22 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key evil-normal-state-map (kbd "<SPC> ra") (lambda() (interactive) (omnisharp-unit-test "all")))
 (define-key evil-normal-state-map (kbd "<SPC> rl") 'recompile)
 
+
+(global-whitespace-mode)
+(setq whitespace-style '(trailing tabs tab-mark))
+
 (defun omnisharp-unit-test (mode)
   "Run tests after building the solution. Mode should be one of 'single', 'fixture' or 'all'" 
   (interactive)
   (let ((build-command
-	 (omnisharp-post-message-curl
-	  (concat (omnisharp-get-host) "buildcommand") (omnisharp--get-common-params)))
+         (omnisharp-post-message-curl
+          (concat (omnisharp-get-host) "buildcommand") (omnisharp--get-common-params)))
 
-	(test-command
-	 (cdr (assoc 'TestCommand
-		     (omnisharp-post-message-curl-as-json
-		      (concat (omnisharp-get-host) "gettestcontext") 
-		      (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
+        (test-command
+         (cdr (assoc 'TestCommand
+                     (omnisharp-post-message-curl-as-json
+                      (concat (omnisharp-get-host) "gettestcontext") 
+                      (cons `("Type" . ,mode) (omnisharp--get-common-params)))))))
     
     (compile (concat build-command " && " test-command))))
+
