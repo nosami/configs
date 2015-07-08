@@ -1,6 +1,8 @@
 
 # keyboard repeat rate
 #xset r 200 50 &
+# speed up the mouse to 2x, 0 threshold before acceleration
+xset m 2 0
 
 # make CapsLock behave like Ctrl:
 setxkbmap -option ctrl:nocaps &
