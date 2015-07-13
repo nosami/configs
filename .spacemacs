@@ -201,6 +201,9 @@ layers configuration."
   (flycheck-mode)
   (linum-mode)
   ;; (whole-line-or-region-mode)
+  ;; use flex matching for company
+  (setq omnisharp-company-match-type 'company-match-flx)
+  (setq gc-cons-threshold 20000000)
   (electric-pair-mode)
   (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
   (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ob") 'omnisharp-build-in-emacs)
