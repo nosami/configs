@@ -46,6 +46,11 @@
   "Initialization function.
 This function is called at the very startup of Spacemacs initialization
 before layers configuration."
+  ;; use standard modifiers for railwaycat emacs
+  (when (equal system-type 'darwin)
+    (setq mac-option-modifier 'meta) ;; Bind meta to ALT
+    (setq mac-command-modifier 'super) ;; Bind apple/command to  super if you want
+    (setq mac-function-modifier 'hyper)) ;; Bind function key to hyper if you want 
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
@@ -79,8 +84,8 @@ before layers configuration."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Ubuntu Mono"
-                               :size 24
+   dotspacemacs-default-font '("Source Code Pro"
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -162,6 +167,7 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
+  
   ;; omnisharp
   (add-hook 'csharp-mode-hook 'my-csharp-mode)
   ;; text size
@@ -169,10 +175,10 @@ layers configuration."
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
   ;; window movement
-  (global-set-key (kbd "C-<left>") 'windmove-left)
-  (global-set-key (kbd "C-<right>") 'windmove-right)
-  (global-set-key (kbd "C-<down>") 'windmove-down)
-  (global-set-key (kbd "C-<up>") 'windmove-up)
+  (global-set-key (kbd "s-h") 'windmove-left)
+  (global-set-key (kbd "s-l") 'windmove-right)
+  (global-set-key (kbd "s-j") 'windmove-down)
+  (global-set-key (kbd "s-k") 'windmove-up)
   ;; whitespace
   (global-whitespace-mode)
   (setq whitespace-style '(trailing tabs tab-mark))
