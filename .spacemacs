@@ -123,10 +123,10 @@ before layers configuration."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up.
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup 't
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX."
-   dotspacemacs-fullscreen-use-non-native nil
+   dotspacemacs-fullscreen-use-non-native 't
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (Emacs 24.4+ only)
@@ -183,15 +183,29 @@ layers configuration."
   (global-whitespace-mode)
   (setq whitespace-style '(trailing tabs tab-mark))
 
-  (define-key global-map (kbd "s-j") 'ace-jump-mode)
+  ;; (define-key global-map (kbd "s-j") 'ace-jump-mode)
 
   ;; better than vim-vinegar
   (require 'dired)
   (define-key evil-normal-state-map (kbd "-") 'dired-jump)
   (define-key dired-mode-map (kbd "-") 'dired-up-directory)
-  ;; only flycheck in normal mode
-  ;; (add-hook 'evil-insert-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
-  ;; (add-hook 'evil-normal-state-exit-hook (lambda() (interactive) (spacemacs/toggle-syntax-checking)))
+  ;; company mode
+  (setq company-idle-delay 0.03)
+  (setq company-minimum-prefix-length 1)
+  (setq company-require-match 'nil)
+  (setq company-show-numbers 't) 
+  (setq omnisharp-company-match-type 'company-match-flx)
+  (setq gc-cons-threshold 20000000)
+
+  (setq flycheck-display-errors-delay 0)
+  ;; don't show inline error display when company popup is active
+  (setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
+  )
+
+(defun my-flycheck-pos-tip-error-messages (errors)
+  ;; don't show inline error display when company popup is active
+  (when (not (company-search-mode))
+    (flycheck-pos-tip-error-messages errors))
   )
 
 (defun my-csharp-mode ()
@@ -202,8 +216,6 @@ layers configuration."
   (linum-mode)
   ;; (whole-line-or-region-mode)
   ;; use flex matching for company
-  (setq omnisharp-company-match-type 'company-match-flx)
-  (setq gc-cons-threshold 20000000)
   (electric-pair-mode)
   (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
   (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ob") 'omnisharp-build-in-emacs)
@@ -248,9 +260,8 @@ layers configuration."
   (setq c-basic-offset 4) ; indents 4 chars
   (setq tab-width 4)          ; and 4 char wide for TAB
   (setq indent-tabs-mode nil) ; And force use of spaces
-  ;; (setq eldoc-idle-delay 0.1
-  ;;       flycheck-display-errors-delay 0.2)
-  (setq eldoc-idle-delay 0.1)
+  (setq eldoc-idle-delay 0.1
+        flycheck-display-errors-delay 0.2)
   (turn-on-eldoc-mode))
 
 ;; Company mode stuff
