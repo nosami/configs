@@ -84,3 +84,5 @@ export PYTHONSTARTUP=~/.pystartup
 
 [ -s "/Users/jason/.kre/kvm/kvm.sh" ] && . "/Users/jason/.kre/kvm/kvm.sh" # this loads kvm
 # source ~/.fzf.zsh
+
+[ -s "/Users/jason/.dnx/dnvm/dnvm.sh" ] && . "/Users/jason/.dnx/dnvm/dnvm.sh" # Load dnvm
