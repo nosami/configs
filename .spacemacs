@@ -1,6 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
+;; (setq ns-use-srgb-colorspace nil)
 
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
@@ -17,24 +18,34 @@
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     ;;        shell-default-height 30
+     ;;        shell-default-position 'bottom)
+     ;; (shell :variables
+     ;; csharp
+     ;; org
      auto-completion
      better-defaults
      emacs-lisp
+     erc
+     eyebrowse
+     fsharp
      git
-     csharp
-     ;; markdown
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     markdown
+     mu4e
+     nyan-mode
+     omnisharp-emacs
+     osx
+     prodigy
      syntax-checking
+     twittering-mode
      version-control
+     (colors :variables colors-enable-nyan-cat-progress-bar t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(csharp-mode shut-up)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -53,6 +64,7 @@ before layers configuration."
     (setq mac-function-modifier 'hyper)) ;; Bind function key to hyper if you want 
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
+  (setq mac-pass-command-to-system nil)
   (setq-default
    ;; Either `vim' or `emacs'. Evil is always enabled but if the variable
    ;; is `emacs' then the `holy-mode' is enabled at startup.
@@ -84,8 +96,8 @@ before layers configuration."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 12
+   dotspacemacs-default-font '("Menlo"
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -123,7 +135,7 @@ before layers configuration."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up.
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup 't
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX."
    dotspacemacs-fullscreen-use-non-native 't
@@ -162,12 +174,23 @@ before layers configuration."
    )
   ;; User initialization goes here
   )
+(defun start-omni-server-for-omnisharp-emacs-development ()
+  (interactive)
+  (add-to-list 'load-path "/home/jason/.emacs.d/private/omnisharp-emacs/extensions/omnisharp-emacs/")
+  (require 'omnisharp)
+  (setq omnisharp-debug t)
+  (setq omnisharp-server-executable-path
+        "/Users/jason/src/omnisharp-roslyn/scripts/Omnisharp")
+  (load-file "/Users/jason/.emacs.d/private/omnisharp-emacs/extensions/omnisharp-emacs/test/buttercup-tests/setup.el"))
 
 (defun dotspacemacs/config ()
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
-  
+  ;; use an older version of mono for fsautocomplete
+  ;; it's currently failing with mono 4.2.1.2
+  (setq exec-path (append '("~/bin") exec-path)) 
+  (setq powerline-default-separator 'wave)
   ;; omnisharp
   (add-hook 'csharp-mode-hook 'my-csharp-mode)
   ;; text size
@@ -179,10 +202,22 @@ layers configuration."
   (global-set-key (kbd "s-l") 'windmove-right)
   (global-set-key (kbd "s-j") 'windmove-down)
   (global-set-key (kbd "s-k") 'windmove-up)
+  (global-set-key (kbd "M-<tab>") 'spacemacs//workspaces-eyebrowse-next-window-config-n)
+  (global-set-key (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
+  (global-set-key (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
+  (global-set-key (kbd "s-3") 'eyebrowse-switch-to-window-config-3)
+  (global-set-key (kbd "s-4") 'eyebrowse-switch-to-window-config-4)
+  (global-set-key (kbd "s-5") 'eyebrowse-switch-to-window-config-5)
+  (global-set-key (kbd "s-6") 'eyebrowse-switch-to-window-config-6)
+  (global-set-key (kbd "s-7") 'eyebrowse-switch-to-window-config-7)
+  (global-set-key (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
+  (global-set-key (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
+  (global-set-key (kbd "H-<backspace>") 'delete-char)
+  (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
   ;; whitespace
   (global-whitespace-mode)
   (setq whitespace-style '(trailing tabs tab-mark))
-
+  (setq vc-follow-symlinks t)
   ;; (define-key global-map (kbd "s-j") 'ace-jump-mode)
 
   ;; better than vim-vinegar
@@ -194,29 +229,88 @@ layers configuration."
   (setq company-minimum-prefix-length 1)
   (setq company-require-match 'nil)
   (setq company-show-numbers 't) 
+  ;; use flex matching for company
   (setq omnisharp-company-match-type 'company-match-flx)
   (setq gc-cons-threshold 20000000)
 
   (setq flycheck-display-errors-delay 0)
   ;; don't show inline error display when company popup is active
   (setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
+
+  (def-omnisharp-service
+    "omnisharp-roslyn stdio"
+    "./omnisharp-roslyn/omnisharp"
+    '("-v" "-s" "test/MinimalSolution/" "--stdio"))
+
+  (def-omnisharp-service
+    "omnisharp-emacs integration tests"
+    "run-integration-tests.sh")
+
+  (def-omnisharp-service
+    "omnisharp-emacs unit tests"
+    "run-tests.sh")
+
+  (def-omnisharp-service
+    "omnisharp-emacs installation test"
+    "run-melpa-build-test.sh")
+
+  (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+    (normal-top-level-add-subdirs-to-load-path))
+  (setq mu4e-mu-binary "/usr/local/bin/mu")
+  (defun my-render-html-message ()
+    (let ((dom (libxml-parse-html-region (point-min) (point-max))))
+      (erase-buffer)
+      (shr-insert-document dom)
+      (goto-char (point-min))))
+
+  (setq mu4e-html2text-command 'my-render-html-message)
   )
 
+(defmacro def-omnisharp-service (name command &optional args-to-command)
+     (let ((omni-dir "~/.emacs.d/private/omnisharp-emacs/extensions/omnisharp-emacs/"))
+       `(prodigy-define-service
+          :name ,name
+          :args ,args-to-command
+          :command (concat ,omni-dir ,command)
+          :cwd ,omni-dir
+          :stop-signal 'kill
+          :kill-process-buffer-on-stop t
+          :truncate-output 200
+          :tags '(omnisharp))))
+
+;;
 (defun my-flycheck-pos-tip-error-messages (errors)
   ;; don't show inline error display when company popup is active
   (when (not (company-search-mode))
     (flycheck-pos-tip-error-messages errors))
   )
 
+(defun my-company-fixes(company-callee other-callee)
+  (interactive)
+  ;; no idea why this is needed.
+  ;; seems like company-mode-map isn't active at times
+  ;; when it should be.
+  (if (company-search-mode)
+    (funcall company-callee)
+    (funcall other-callee))
+  )
+
 (defun my-csharp-mode ()
   (yas-minor-mode)
   (omnisharp-mode)
-  (company-mode)
-  (flycheck-mode)
+  ;; (flycheck-mode)
   (linum-mode)
   ;; (whole-line-or-region-mode)
-  ;; use flex matching for company
+  ;; (add-to-list 'ac-sources 'ac-source-omnisharp)
   (electric-pair-mode)
+  (company-mode)
+  ;; strange company mode map fixes
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd "<return>") (lambda() (interactive) (my-company-fixes 'company-complete-selection 'evil-ret)))
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd "RET") (lambda() (interactive) (my-company-fixes 'company-complete-selection 'evil-ret)))
+  (evil-define-key 'insert omnisharp-mode-map (kbd "C-j") (lambda() (interactive) (my-company-fixes 'company-select-next 'electric-newline-and-maybe-indent)))
+  (evil-define-key 'insert omnisharp-mode-map (kbd "C-k") (lambda() (interactive) (my-company-fixes 'company-select-previous 'evil-insert-digraph)))
+  ;; end strangeness
+
   (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
   (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ob") 'omnisharp-build-in-emacs)
   (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ocf") 'omnisharp-code-format)
@@ -229,6 +323,17 @@ layers configuration."
   (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ox") 'omnisharp-fix-code-issue-at-point)
   (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> ofx") 'omnisharp-fix-usings)
   (evil-define-key 'normal omnisharp-mode-map (kbd "<SPC> oo") 'omnisharp-auto-complete-overrides)
+  (evil-define-key 'insert omnisharp-mode-map (kbd ";") (lambda() (interactive) (omnisharp-format-on-keystroke ";")))
+  (evil-define-key 'insert omnisharp-mode-map (kbd "}") (lambda() (interactive) (omnisharp-format-on-keystroke "}")))
+
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd "[") (lambda() (interactive) (company-complete-selection-insert-key '"[")))
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd ")") (lambda() (interactive) (company-complete-selection-insert-key '")")))
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd "<SPC>") nil)
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
+  ;; (evil-define-key 'insert omnisharp-mode-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
+  
   (define-key company-active-map (kbd ".") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '".")))
   (define-key company-active-map (kbd "]") (lambda() (interactive) (company-complete-selection-insert-key-and-complete '"]")))
   (define-key company-active-map (kbd "[") (lambda() (interactive) (company-complete-selection-insert-key '"[")))
@@ -236,8 +341,8 @@ layers configuration."
   (define-key company-active-map (kbd "<SPC>") nil)
   (define-key company-active-map (kbd ";") (lambda() (interactive) (company-complete-selection-insert-key '";")))
   (define-key company-active-map (kbd ">") (lambda() (interactive) (company-complete-selection-insert-key '">")))
-  (define-key omnisharp-mode-map (kbd "}") 'csharp-indent-function-on-closing-brace) 
-  (define-key omnisharp-mode-map (kbd "<RET>") 'csharp-newline-and-indent) 
+
+  ;; (define-key omnisharp-mode-map (kbd "}") 'csharp-indent-function-on-closing-brace) 
 
   (define-key omnisharp-mode-map (kbd "<f12>") 'omnisharp-go-to-definition)
   (define-key omnisharp-mode-map (kbd "s-d") 'omnisharp-go-to-definition)
@@ -256,7 +361,7 @@ layers configuration."
 
   (define-key omnisharp-mode-map (kbd "<f2>") 'omnisharp-rename-interactively)
   (define-key omnisharp-mode-map (kbd "<f5>") 'omnisharp-build-in-emacs)
-  ;; (add-to-list 'company-backends 'company-omnisharp)
+  (define-key omnisharp-mode-map (kbd "<f5>") 'revert-omnisharp-file)
   (setq c-basic-offset 4) ; indents 4 chars
   (setq tab-width 4)          ; and 4 char wide for TAB
   (setq indent-tabs-mode nil) ; And force use of spaces
@@ -266,7 +371,8 @@ layers configuration."
 
 ;; Company mode stuff
 (defun company-complete-selection-insert-key(company-key)
-  (company-complete-selection)
+  (if (not (null company-candidates))
+      (company-complete-selection))
   (insert company-key))
 
 (defun company-complete-selection-insert-key-and-complete(company-key)
@@ -301,3 +407,68 @@ on their own line."
   (newline-and-indent)) 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+
+(defun find-omnisharp-emacs-file ()
+  (interactive)
+  "Edit the `file' in the spacemacs base directory, in the current window."
+  (ido-find-file-in-dir "~/.emacs.d/private/omnisharp-emacs/extensions/omnisharp-emacs"))
+;alist of 'buffer-name / timer' items
+(defvar buffer-tail-alist nil)
+(defun buffer-tail (name)
+  "follow buffer tails"
+  (cond ((or (equal (buffer-name (current-buffer)) name)
+         (string-match "^ \\*Minibuf.*?\\*$" (buffer-name (current-buffer)))))
+        ((get-buffer name)
+      (with-current-buffer (get-buffer name)
+        (goto-char (point-max))
+        (let ((windows (get-buffer-window-list (current-buffer) nil t)))
+          (while windows (set-window-point (car windows) (point-max))
+         (with-selected-window (car windows) (recenter -3)) (setq windows (cdr windows))))))))
+
+(defun toggle-buffer-tail (name &optional force)
+  "toggle tailing of buffer NAME. when called non-interactively, a FORCE arg of 'on' or 'off' can be used to to ensure a given state for buffer NAME"
+  (interactive (list (cond ((if name name) (read-from-minibuffer 
+      (concat "buffer name to tail" 
+        (if buffer-tail-alist (concat " (" (caar buffer-tail-alist) ")") "") ": ")
+    (if buffer-tail-alist (caar buffer-tail-alist)) nil nil
+           (mapcar '(lambda (x) (car x)) buffer-tail-alist)
+        (if buffer-tail-alist (caar buffer-tail-alist)))) nil)))
+  (let ((toggle (cond (force force) ((assoc name buffer-tail-alist) "off") (t "on")) ))
+    (if (not (or (equal toggle "on") (equal toggle "off"))) 
+      (error "invalid 'force' arg. required 'on'/'off'") 
+      (progn 
+        (while (assoc name buffer-tail-alist) 
+           (cancel-timer (cdr (assoc name buffer-tail-alist)))
+           (setq buffer-tail-alist (remove* name buffer-tail-alist :key 'car :test 'equal)))
+        (if (equal toggle "on")
+            (add-to-list 'buffer-tail-alist (cons name (run-at-time t 1 'buffer-tail name))))
+        (message "toggled 'tail buffer' for '%s' %s" name toggle)))))
+
+(defun revert-omnisharp-file ()
+  "Revert buffer without confirmation."
+  (interactive)
+  (save-buffer)
+  (revert-buffer t t))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
+ '(ahs-idle-interval 0.25)
+ '(ahs-idle-timer 0 t)
+ '(ahs-inhibit-face-list nil)
+ '(powerline-default-separator (quote wave))
+ '(powerline-height 15)
+ '(ring-bell-function (quote ignore) t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background "#282828" :foreground "#fdf4c1"))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(powerline-active1 ((t (:inherit mode-line :background "gray28")))))
