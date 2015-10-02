@@ -33,7 +33,7 @@
      markdown
      mu4e
      nyan-mode
-     omnisharp-emacs
+     ;; omnisharp-emacs
      osx
      prodigy
      syntax-checking
@@ -45,7 +45,7 @@
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(csharp-mode shut-up)
+   ;; dotspacemacs-additional-packages '(csharp-mode shut-up)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -189,10 +189,13 @@ before layers configuration."
 layers configuration."
   ;; use an older version of mono for fsautocomplete
   ;; it's currently failing with mono 4.2.1.2
-  (setq exec-path (append '("~/bin") exec-path)) 
+  (setq exec-path (append '("/opt/mono/bin/") exec-path))
+
+  (setq exec-path (append '("/opt/mono/") exec-path))
   (setq powerline-default-separator 'wave)
   ;; omnisharp
   (add-hook 'csharp-mode-hook 'my-csharp-mode)
+  (global-set-key (kbd "s-<return>") 'inferior-fsharp-eval-region)
   ;; text size
   (global-set-key (kbd "C-+") 'text-scale-increase)
   (global-set-key (kbd "C-=") 'text-scale-increase)
@@ -213,7 +216,7 @@ layers configuration."
   (global-set-key (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
   (global-set-key (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
   (global-set-key (kbd "H-<backspace>") 'delete-char)
-  (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+  (evil-define-key 'insert global-map (kbd "§") (lambda() (interactive) (insert "#")))
   ;; whitespace
   (global-whitespace-mode)
   (setq whitespace-style '(trailing tabs tab-mark))

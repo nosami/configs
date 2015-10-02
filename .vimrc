@@ -7,39 +7,40 @@ if has('vim_starting')
 endif
 
 " Required:
-call neobundle#rc(expand('~/.vim/bundle/'))
+call plug#begin('~/.vim/plugged')
 "let g:syntastic_cursor_column = 0
 " Let NeoBundle manage NeoBundle
 " Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Rip-Rip/clang_complete'
-"NeoBundle 'Shougo/neocomplete'
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'Valloric/YouCompleteMe'
-NeoBundle 'christoomey/vim-tmux-navigator'
-NeoBundle 'featurist/vim-pogoscript'
-NeoBundle 'honza/vim-snippets'
-NeoBundle 'jaxbot/brolink.vim'
-NeoBundle 'jelera/vim-javascript-syntax'
-NeoBundle 'junegunn/vader.vim'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'maksimr/vim-jsbeautify'
-NeoBundle 'marijnh/tern_for_vim'
-NeoBundle 'laurentgoudet/vim-howdoi'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'nosami/Omnisharp'
-NeoBundle 'nosami/fsharp-vim'
-NeoBundle 'nosami/molokai'
-NeoBundle 'nosami/tslime.vim'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'kchmck/vim-coffee-script'
+Plug 'Rip-Rip/clang_complete'
+"Plug 'Shougo/neocomplete'
+Plug 'SirVer/ultisnips'
+Plug 'Valloric/YouCompleteMe'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'featurist/vim-pogoscript'
+Plug 'honza/vim-snippets'
+Plug 'jaxbot/brolink.vim'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'junegunn/vader.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'marijnh/tern_for_vim'
+Plug 'laurentgoudet/vim-howdoi'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'nosami/Omnisharp'
+"Plug 'nosami/fsharp-vim'
+Plug 'nosami/molokai'
+Plug 'nosami/tslime.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-vinegar'
+Plug 'kchmck/vim-coffee-script'
+
+call plug#end()
 
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
@@ -54,7 +55,6 @@ filetype indent on
 
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
-NeoBundleCheck
 if has("gui_running")
     set guioptions+=LlRrbmT
     set guioptions-=LlRrbmT
