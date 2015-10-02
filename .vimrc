@@ -165,6 +165,8 @@ let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --
 autocmd FileType javascript,pogo setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 
 " OmniSharp
+let g:OmniSharp_server_type = 'v1'
+let g:OmniSharp_server_type = 'roslyn'
 inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 nnoremap <leader>a :Ag<cword><cr>
 
