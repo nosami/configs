@@ -32,12 +32,12 @@
      git
      markdown
      ;; mu4e
-     nyan-mode
+     ;; nyan-mode
      ;; omnisharp-emacs
      osx
      prodigy
      syntax-checking
-     twittering-mode
+     ;; twittering-mode
      version-control
      (colors :variables colors-enable-nyan-cat-progress-bar t)
      )
@@ -183,15 +183,13 @@ before layers configuration."
         "/Users/jason/src/omnisharp-roslyn/scripts/Omnisharp")
   (load-file "/Users/jason/.emacs.d/private/omnisharp-emacs/extensions/omnisharp-emacs/test/buttercup-tests/setup.el"))
 
-(defun dotspacemacs/config ()
+(defun dotspacemacs/user-config ()
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   ;; use an older version of mono for fsautocomplete
   ;; it's currently failing with mono 4.2.1.2
-  (setq exec-path (append '("/opt/mono/bin/") exec-path))
-
-  (setq exec-path (append '("/opt/mono/") exec-path))
+  (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   (setq powerline-default-separator 'wave)
   ;; omnisharp
   (add-hook 'csharp-mode-hook 'my-csharp-mode)
@@ -217,6 +215,7 @@ layers configuration."
   (global-set-key (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
   (global-set-key (kbd "H-<backspace>") 'delete-char)
   (evil-define-key 'insert global-map (kbd "§") (lambda() (interactive) (insert "#")))
+  
   ;; whitespace
   (global-whitespace-mode)
   (setq whitespace-style '(trailing tabs tab-mark))
@@ -240,6 +239,10 @@ layers configuration."
   ;; don't show inline error display when company popup is active
   (setq flycheck-display-errors-function 'my-flycheck-pos-tip-error-messages)
 
+  (setq ac-auto-show-menu 0.05)
+  (setq ac-delay 0.05)
+  (setq ac-menu-height 20)
+
   (def-omnisharp-service
     "omnisharp-roslyn stdio"
     "./omnisharp-roslyn/omnisharp"
@@ -257,8 +260,8 @@ layers configuration."
     "omnisharp-emacs installation test"
     "run-melpa-build-test.sh")
 
-  (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
-    (normal-top-level-add-subdirs-to-load-path))
+  ;; (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+  ;;   (normal-top-level-add-subdirs-to-load-path))
   (setq mu4e-mu-binary "/usr/local/bin/mu")
   (defun my-render-html-message ()
     (let ((dom (libxml-parse-html-region (point-min) (point-max))))
