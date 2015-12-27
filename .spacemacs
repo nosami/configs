@@ -18,9 +18,9 @@
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; (shell :variables
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
      ;; csharp
      ;; org
      auto-completion
@@ -31,6 +31,7 @@
      fsharp
      git
      markdown
+     nixos
      ;; mu4e
      ;; nyan-mode
      ;; omnisharp-emacs
@@ -39,7 +40,7 @@
      syntax-checking
      ;; twittering-mode
      version-control
-     (colors :variables colors-enable-nyan-cat-progress-bar t)
+     ;; (colors :variables colors-enable-nyan-cat-progress-bar t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
