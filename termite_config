@@ -8,7 +8,7 @@ dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
 font = Monospace 9
-scrollback_lines = 1000
+scrollback_lines = 100000
 search_wrap = true
 #icon_name = terminal
 #geometry = 640x480
@@ -35,7 +35,6 @@ foreground_bold = #ffffff
 background = #3f3f3f
 
 # 20% background transparency (requires a compositor)
-#background = rgba(63, 63, 63, 0.8)
 
 # if unset, will reverse foreground and background
 highlight = #2f2f2f
@@ -43,6 +42,7 @@ highlight = #2f2f2f
 # colors from color0 to color254 can be set
 # hard contrast: background = #1d2021
 background = #282828
+background = rgba(0, 0, 0, 0.6)
 # soft contrast: background = #32302f
 foreground = #ebdbb2
 foreground_bold = #ebdbb2
@@ -51,7 +51,7 @@ foreground_bold = #ebdbb2
 color0 = #282828
 color8 = #928374
 
-# neurtral_red + bright_red
+# neutral_red + bright_red
 color1 = #cc241d
 color9 = #fb4934
 

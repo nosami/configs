@@ -147,7 +147,7 @@ before layers configuration."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'.
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 60
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'.
@@ -173,6 +173,7 @@ before layers configuration."
    ;; Not used for now.
    dotspacemacs-default-package-repository nil
    )
+  (set-frame-parameter (selected-frame) 'alpha '(60 60))
   ;; User initialization goes here
   )
 (defun start-omni-server-for-omnisharp-emacs-development ()
@@ -188,8 +189,6 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
-  ;; use an older version of mono for fsautocomplete
-  ;; it's currently failing with mono 4.2.1.2
   (setq tramp-ssh-controlmaster-options "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
   (setq powerline-default-separator 'wave)
   ;; omnisharp
@@ -475,7 +474,7 @@ on their own line."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "#282828" :foreground "#fdf4c1"))))
+ '(default ((t (:background "black" :foreground "#fdf4c1"))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
  '(powerline-active1 ((t (:inherit mode-line :background "gray28")))))
