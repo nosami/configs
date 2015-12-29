@@ -31,7 +31,7 @@
      fsharp
      git
      markdown
-     nixos
+     ;; nixos
      ;; mu4e
      ;; nyan-mode
      ;; omnisharp-emacs

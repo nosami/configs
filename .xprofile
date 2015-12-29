@@ -13,4 +13,6 @@ xset r rate 200 50 &
 
 # make short-pressed Ctrl behave like Escape:
 #xcape -e 'Control_L=Escape' &
+unclutter &
+xrdb -merge ~/.Xresources
 vmware-user-suid-wrapper &
