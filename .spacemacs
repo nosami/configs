@@ -28,7 +28,7 @@
      emacs-lisp
      erc
      eyebrowse
-     fsharp
+     fsharp-git
      git
      markdown
      ;; nixos
@@ -175,6 +175,7 @@ before layers configuration."
    )
   (set-frame-parameter (selected-frame) 'alpha '(60 60))
   ;; User initialization goes here
+ 
   )
 (defun start-omni-server-for-omnisharp-emacs-development ()
   (interactive)
@@ -193,6 +194,7 @@ layers configuration."
   (setq powerline-default-separator 'wave)
   ;; omnisharp
   (add-hook 'csharp-mode-hook 'my-csharp-mode)
+  (fsharp-git/init-fsharp-git)
   (global-set-key (kbd "s-<return>") 'inferior-fsharp-eval-region)
   ;; text size
   (global-set-key (kbd "C-+") 'text-scale-increase)
