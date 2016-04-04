@@ -17,3 +17,9 @@
     sm = submodule update --init --recursive
 [push]
 	default = simple
+[url "git@github.com:fsharp/xamarin-monodevelop-fsharp-addin.git"]
+    pushInsteadOf = git://github.com/fsharp/xamarin-monodevelop-fsharp-addin.git
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
