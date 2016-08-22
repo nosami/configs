@@ -28,6 +28,7 @@
      emacs-lisp
      erc
      eyebrowse
+     csharp
      fsharp-git
      git
      markdown
@@ -39,7 +40,7 @@
      prodigy
      syntax-checking
      ;; twittering-mode
-     version-control
+     ;; version-control
      ;; (colors :variables colors-enable-nyan-cat-progress-bar t)
      )
    ;; List of additional packages that will be installed without being
@@ -47,6 +48,7 @@
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
    ;; dotspacemacs-additional-packages '(csharp-mode shut-up)
+   dotspacemacs-additional-packages '(evil-terminal-cursor-changer)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -97,7 +99,7 @@ before layers configuration."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Menlo"
+   dotspacemacs-default-font '("Source Code Pro"
                                :size 14
                                :weight normal
                                :width normal
@@ -147,11 +149,11 @@ before layers configuration."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'.
-   dotspacemacs-active-transparency 60
+   dotspacemacs-active-transparency 100
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'.
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 100
    ;; If non nil unicode symbols are displayed in the mode line.
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -173,7 +175,7 @@ before layers configuration."
    ;; Not used for now.
    dotspacemacs-default-package-repository nil
    )
-  (set-frame-parameter (selected-frame) 'alpha '(60 60))
+  ;; (set-frame-parameter (selected-frame) 'alpha '(60 60))
   ;; User initialization goes here
  
   )
@@ -186,6 +188,29 @@ before layers configuration."
         "/Users/jason/src/omnisharp-roslyn/scripts/Omnisharp")
   (load-file "/Users/jason/.emacs.d/private/omnisharp-emacs/extensions/omnisharp-emacs/test/buttercup-tests/setup.el"))
 
+(defun setup-mac-meta-keys ()
+  (spacemacs/toggle-maximize-frame-on)
+  (let ((m window-numbering-keymap))
+    ;; On UK MBP keyboards, META key is used to insert certain characters clear the key
+    (define-key m "\M-0" nil)
+    (define-key m "\M-1" nil)
+    (define-key m "\M-2" nil)
+    (define-key m "\M-3" nil)
+    (define-key m "\M-4" nil)
+    (define-key m "\M-5" nil)
+    (define-key m "\M-6" nil)
+    (define-key m "\M-7" nil)
+    (define-key m "\M-8" nil)
+    (define-key m "\M-9" nil)
+
+    ;; http://stackoverflow.com/questions/3977069/emacs-question-hash-key
+    (global-set-key (kbd "M-2") '(lambda () (interactive) (insert "€")))
+    (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+    (define-key isearch-mode-map (kbd "M-3")
+      '(lambda ()
+         (interactive)
+         (isearch-process-search-char ?\#)))))
+
 (defun dotspacemacs/user-config ()
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
@@ -194,7 +219,7 @@ layers configuration."
   (setq powerline-default-separator 'wave)
   ;; omnisharp
   (add-hook 'csharp-mode-hook 'my-csharp-mode)
-  (fsharp-git/init-fsharp-git)
+  ;; (fsharp-git/init-fsharp-git)
   (global-set-key (kbd "s-<return>") 'inferior-fsharp-eval-region)
   ;; text size
   (global-set-key (kbd "C-+") 'text-scale-increase)
@@ -205,6 +230,10 @@ layers configuration."
   (global-set-key (kbd "s-l") 'windmove-right)
   (global-set-key (kbd "s-j") 'windmove-down)
   (global-set-key (kbd "s-k") 'windmove-up)
+  (global-set-key (kbd "s-/") 'evilnc-comment-or-uncomment-lines)
+  (global-set-key (kbd "s-[") 'evil-shift-left)
+  (global-set-key (kbd "s-]") 'evil-shift-right)
+
   (global-set-key (kbd "M-<tab>") 'spacemacs//workspaces-eyebrowse-next-window-config-n)
   (global-set-key (kbd "s-1") 'eyebrowse-switch-to-window-config-1)
   (global-set-key (kbd "s-2") 'eyebrowse-switch-to-window-config-2)
@@ -216,8 +245,7 @@ layers configuration."
   (global-set-key (kbd "s-8") 'eyebrowse-switch-to-window-config-8)
   (global-set-key (kbd "s-9") 'eyebrowse-switch-to-window-config-9)
   (global-set-key (kbd "H-<backspace>") 'delete-char)
-  (evil-define-key 'insert global-map (kbd "§") (lambda() (interactive) (insert "#")))
-  
+  (setup-mac-meta-keys)
   ;; whitespace
   (global-whitespace-mode)
   (setq whitespace-style '(trailing tabs tab-mark))
@@ -272,6 +300,7 @@ layers configuration."
       (goto-char (point-min))))
 
   (setq mu4e-html2text-command 'my-render-html-message)
+  (fsharp-git/init-fsharp-git)
   )
 
 (defmacro def-omnisharp-service (name command &optional args-to-command)
@@ -476,7 +505,7 @@ on their own line."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:background "black" :foreground "#fdf4c1"))))
+ ;; '(default ((t (:background "black" :foreground "#fdf4c1"))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
  '(powerline-active1 ((t (:inherit mode-line :background "gray28")))))
