@@ -27,9 +27,10 @@
      better-defaults
      emacs-lisp
      erc
-     eyebrowse
+     ;; eyebrowse
      csharp
-     fsharp-git
+     ;; fsharp-git
+     fsharp
      git
      markdown
      ;; nixos
@@ -40,6 +41,7 @@
      prodigy
      syntax-checking
      ;; twittering-mode
+     ivy
      ;; version-control
      ;; (colors :variables colors-enable-nyan-cat-progress-bar t)
      )
@@ -300,7 +302,7 @@ layers configuration."
       (goto-char (point-min))))
 
   (setq mu4e-html2text-command 'my-render-html-message)
-  (fsharp-git/init-fsharp-git)
+  ;; (fsharp-git/init-fsharp-git)
   )
 
 (defmacro def-omnisharp-service (name command &optional args-to-command)
