@@ -33,15 +33,18 @@
      fsharp
      git
      markdown
+     ocaml
      ;; nixos
      ;; mu4e
      ;; nyan-mode
      ;; omnisharp-emacs
      osx
      prodigy
+     ;; smex
      syntax-checking
+     yaml
      ;; twittering-mode
-     ivy
+     ;; ivy
      ;; version-control
      ;; (colors :variables colors-enable-nyan-cat-progress-bar t)
      )
@@ -62,6 +65,7 @@
   "Initialization function.
 This function is called at the very startup of Spacemacs initialization
 before layers configuration."
+  (setq projectile-enable-caching 't)
   ;; use standard modifiers for railwaycat emacs
   (when (equal system-type 'darwin)
     (setq mac-option-modifier 'meta) ;; Bind meta to ALT
