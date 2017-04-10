@@ -21,7 +21,7 @@
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     ;; csharp
+     csharp
      ;; org
      auto-completion
      better-defaults

@@ -30,17 +30,20 @@ alias ..='cd ..'
 alias findhere='find . -name'
 alias f='find . -name'
 alias xs='export MONODEVELOP_CONSOLE_LOG_LEVEL=All && /Applications/Xamarin\ Studio.app/Contents/MacOS/XamarinStudio --no-redirect'
+alias vs='export MONODEVELOP_CONSOLE_LOG_LEVEL=All && /Applications/Visual\ Studio.app/Contents/MacOS/VisualStudio --no-redirect'
 alias mdtool='mono /Users/jason/src/monodevelop/main/build/bin/mdtool.exe'
 alias pull='git pull'
 alias push='git push'
 alias mpv='mpv --ontop'
-alias kmd='kill -KILL `pgrep "MonoDevelop|Xamarin"`'
+alias kmd='kill -KILL `pgrep "MonoDevelop|Xamarin|Studio"`'
 alias kw='pkill Workbook'
 alias pw='pkill Workbook'
 alias linkmono64='sudo ln -sf /Library/Frameworks/Mono.framework/Versions/Current/bin/mono64 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono'
 alias rebase='git pull --rebase origin master'
 alias removecrap='cd ~/src/monodevelop/main/build/bin/ && rm gtk-sharp.dll glib-sharp.dll gdk-sharp.dll atk-sharp.dll pango-sharp.dll'
 alias ao='git log --date=short --reverse --all --since=3.weeks.ago --author=nosami'
+alias ours='git checkout --ours'
+alias theirs='git checkout --theirs'
 # Customize to your needs...
 export PATH=./packages/FAKE/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
 export EDITOR=vim
@@ -51,7 +54,7 @@ export PYTHONSTARTUP=~/.pystartup
 #export MDAddinsDir="/Users/jason/src/monodevelop/main/build/AddIns"
 export MONODEVELOP_CONSOLE_LOG_LEVEL=All
 export MONO_ENV_OPTIONS=--arch=64
-
+export MONODEVELOP_DEV_ADDINS=/Users/jason/src/XSVim/XSVim/bin/Debug/
 #[ -s "/Users/jason/.kre/kvm/kvm.sh" ] && . "/Users/jason/.kre/kvm/kvm.sh" # Load kvm
 
 [ -s "/Users/jason/.dnx/dnvm/dnvm.sh" ] && . "/Users/jason/.dnx/dnvm/dnvm.sh" # Load dnvm
@@ -64,15 +67,28 @@ killit() {
 fake () {
     mono packages/FAKE/tools/FAKE.exe $1 --fsiargs -d:MONO build.fsx
 }
+
+vifind () {
+    findhere $1 | xargs emacsclient
+}
+
 alias paket='mono .paket/paket.exe'
 alias compilerservice='mono ~/src/compilerservice.exe/CompilerService.exe --project'
 alias ma='pushd . && cd ~/src/monodevelop/main/src/core/Mono.Texteditor/ && xbuild /v:q && popd && pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
-alias mt='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
+alias mt='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild MonoDevelop.FSharp.Tests.fastbuild.fsproj /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
 alias mp='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run="MonoDevelopTests.Template tests" && popd'
-alias mm='pushd . && cd ~/src/monodevelop/main/src/core/Mono.Texteditor/ && xbuild /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
-alias whatamirunning='~/src/whatamirunning.sh'
-cs () {
-    compilerservice $1  | python -m json.tool
+alias mm='pushd . && cd ~/src/monodevelop/main/src/addins/MonoDevelop.SourceEditor2 && make && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
+
+stashgrep() {
+  IFS=$'\n'
+  for i in `git stash list --format="%gd"`; do
+    git stash show -p $i | grep -H --label="$i" "$1"
+  done
 }
+
+installpkg() {
+    sudo installer -pkg $1 -target /
+}
+
 alias clean='git clean -xffd'
 alias master='git checkout master'
