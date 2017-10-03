@@ -2,6 +2,7 @@ export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 export DISABLE_STETIC=1
+export MONODEVELOP_SDB_TEST=1
 shopt -s histappend                      # append to history, don't overwrite it
 
 # Save and reload the history after each command finishes
@@ -23,7 +24,8 @@ alias l='ls -la'
 alias clone_md_roslyn='git clone git@github.com:mono/monodevelop -b roslyn --recursive && git clone git@github.com:xamarin/md-addins -b roslyn --recursive && (cd monodevelop && ./configure --profile=mac && make) && (cd md-addins && ./configure --profile=mac && make)'
 alias cdf='cd ~/src/monodevelop/main/external/fsharpbinding'
 alias cdm='cd ~/src/monodevelop'
-alias run='cd ~/src/monodevelop/main/build/bin/ && rm gtk-sharp.dll glib-sharp.dll gdk-sharp.dll atk-sharp.dll pango-sharp.dll && cda && make run'
+alias cdmono='cd /Library/Frameworks/Mono.framework/Versions/Current'
+alias run='pushd . && cda && make run && popd'
 alias cycle7='MONODEVELOP_DEV_ADDINS=/Users/jason/src/cycle7/monodevelop/main/external/fsharpbinding/bin/ && cd ~/src/cycle7/md-addins && make run'
 alias cda='cd ~/src/md-addins'
 alias ..='cd ..'
@@ -31,11 +33,12 @@ alias findhere='find . -name'
 alias f='find . -name'
 alias xs='export MONODEVELOP_CONSOLE_LOG_LEVEL=All && /Applications/Xamarin\ Studio.app/Contents/MacOS/XamarinStudio --no-redirect'
 alias vs='export MONODEVELOP_CONSOLE_LOG_LEVEL=All && /Applications/Visual\ Studio.app/Contents/MacOS/VisualStudio --no-redirect'
+alias vs3='export MONODEVELOP_CONSOLE_LOG_LEVEL=All && /Applications/Visual\ Studio\ 3.app/Contents/MacOS/VisualStudio --no-redirect'
 alias mdtool='mono /Users/jason/src/monodevelop/main/build/bin/mdtool.exe'
 alias pull='git pull'
 alias push='git push'
 alias mpv='mpv --ontop'
-alias kmd='kill -KILL `pgrep "MonoDevelop|Xamarin|Studio"`'
+alias kmd='kill -KILL `pgrep "MonoDevelop|Xamarin|Studio"` && pkill mono'
 alias kw='pkill Workbook'
 alias pw='pkill Workbook'
 alias linkmono64='sudo ln -sf /Library/Frameworks/Mono.framework/Versions/Current/bin/mono64 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono'
@@ -46,6 +49,7 @@ alias ours='git checkout --ours'
 alias theirs='git checkout --theirs'
 # Customize to your needs...
 export PATH=./packages/FAKE/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
+export PATH=/usr/local/opt/sudo-touchid/bin:$PATH
 export EDITOR=vim
 export PYTHONSTARTUP=~/.pystartup
 #export MONODEVELOP_DEV_ADDINS="/Users/jason/src/monodevelop/main/external/fsharpbinding/bin/"
@@ -92,3 +96,6 @@ installpkg() {
 
 alias clean='git clean -xffd'
 alias master='git checkout master'
+
+# added by travis gem
+[ -f /Users/jason/.travis/travis.sh ] && source /Users/jason/.travis/travis.sh
