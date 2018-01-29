@@ -24,6 +24,7 @@ alias l='ls -la'
 alias clone_md_roslyn='git clone git@github.com:mono/monodevelop -b roslyn --recursive && git clone git@github.com:xamarin/md-addins -b roslyn --recursive && (cd monodevelop && ./configure --profile=mac && make) && (cd md-addins && ./configure --profile=mac && make)'
 alias cdf='cd ~/src/monodevelop/main/external/fsharpbinding'
 alias cdm='cd ~/src/monodevelop'
+alias cdp='cd ~/src/monodevelop/main/build/AddIns/FSharpBinding/'
 alias cdmono='cd /Library/Frameworks/Mono.framework/Versions/Current'
 alias run='pushd . && cda && make run && popd'
 alias cycle7='MONODEVELOP_DEV_ADDINS=/Users/jason/src/cycle7/monodevelop/main/external/fsharpbinding/bin/ && cd ~/src/cycle7/md-addins && make run'
@@ -43,10 +44,12 @@ alias kw='pkill Workbook'
 alias pw='pkill Workbook'
 alias linkmono64='sudo ln -sf /Library/Frameworks/Mono.framework/Versions/Current/bin/mono64 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono'
 alias rebase='git pull --rebase origin master'
-alias removecrap='cd ~/src/monodevelop/main/build/bin/ && rm gtk-sharp.dll glib-sharp.dll gdk-sharp.dll atk-sharp.dll pango-sharp.dll'
 alias ao='git log --date=short --reverse --all --since=3.weeks.ago --author=nosami'
 alias ours='git checkout --ours'
 alias theirs='git checkout --theirs'
+alias deletetrailingwhitespace="find . -iname '*.fs*' -type f -exec sed -i '' 's/[[:space:]]\{1,\}$//' {} \+"
+alias buildfs='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharpBinding && msbuild *.fastbuild.fsproj && popd'
+alias wgetmdpkgs="grep azureedge ~/src/md-addins/bot-provisioning/Make.config | sed 's/.*=//' | xargs wget -nc"
 # Customize to your needs...
 export PATH=./packages/FAKE/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
 export PATH=/usr/local/opt/sudo-touchid/bin:$PATH
@@ -61,7 +64,7 @@ export MONO_ENV_OPTIONS=--arch=64
 export MONODEVELOP_DEV_ADDINS=/Users/jason/src/XSVim/XSVim/bin/Debug/
 #[ -s "/Users/jason/.kre/kvm/kvm.sh" ] && . "/Users/jason/.kre/kvm/kvm.sh" # Load kvm
 
-[ -s "/Users/jason/.dnx/dnvm/dnvm.sh" ] && . "/Users/jason/.dnx/dnvm/dnvm.sh" # Load dnvm
+# [ -s "/Users/jason/.dnx/dnvm/dnvm.sh" ] && . "/Users/jason/.dnx/dnvm/dnvm.sh" # Load dnvm
 PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
 killit() {
     # Kills any process that matches a regexp passed to it
@@ -81,7 +84,7 @@ alias compilerservice='mono ~/src/compilerservice.exe/CompilerService.exe --proj
 alias ma='pushd . && cd ~/src/monodevelop/main/src/core/Mono.Texteditor/ && xbuild /v:q && popd && pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
 alias mt='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild MonoDevelop.FSharp.Tests.fastbuild.fsproj /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
 alias mp='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run="MonoDevelopTests.Template tests" && popd'
-alias mm='pushd . && cd ~/src/monodevelop/main/src/addins/MonoDevelop.SourceEditor2 && make && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
+alias mm='pushd . && cd ~/src/monodevelop/main/src/addins/MonoDevelop.SourceEditor2 && make && mono64 ../../../build/bin/mdtool.exe run-md-tests ../../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
 
 stashgrep() {
   IFS=$'\n'
