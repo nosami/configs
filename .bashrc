@@ -5,14 +5,17 @@ fi
 export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
 export DISABLE_STETIC=1
 export MONODEVELOP_SDB_TEST=1
-shopt -s histappend                      # append to history, don't overwrite it
-
+export XAMARIN_UPDATER_IGNORE_LOCK=13
+export XAMARIN_UPDATER_TIMEOUT=10000 # The default 
+export MONO_THREADS_SUSPEND=preemptive
 # Save and reload the history after each command finishes
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+alias got='git'
 alias vi='emacsclient -t'
-alias gs='emacsclient -ct --eval "(magit-status)"'
+alias gs='emacsclient -ct --eval "(delete-other-windows) (magit-status)"'
 alias ls='ls -G'
 alias nunit='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias nunit-console.exe='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
@@ -39,6 +42,7 @@ alias findhere='find . -name'
 alias f='find .  -name'
 alias xs='MONODEVELOP_CONSOLE_LOG_LEVEL=All /Applications/Xamarin\ Studio.app/Contents/MacOS/XamarinStudio --no-redirect'
 alias vs='MONODEVELOP_CONSOLE_LOG_LEVEL=All /Applications/Visual\ Studio.app/Contents/MacOS/VisualStudio --no-redirect'
+alias vspreview='MONODEVELOP_CONSOLE_LOG_LEVEL=All /Applications/Visual\ Studio\ \(Preview\).app/Contents/MacOS/VisualStudio --no-redirect'
 alias mdtool='mono /Users/jason/src/monodevelop/main/build/bin/mdtool.exe'
 alias pull='git pull'
 alias push='git push'
@@ -55,7 +59,7 @@ alias deletetrailingwhitespace="find . -iname '*.fs*' -type f -exec sed -i '' 's
 alias buildfs='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharpBinding && msbuild *.fastbuild.fsproj && popd'
 alias wgetmdpkgs="grep azureedge ~/src/md-addins/bot-provisioning/Make.config | sed 's/.*=//' | xargs wget -nc"
 # Customize to your needs...
-export PATH=./packages/FAKE/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
+export PATH=$HOME/.dotnet/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
 export PATH=/usr/local/opt/sudo-touchid/bin:$PATH
 export EDITOR=vim
 export PYTHONSTARTUP=~/.pystartup
@@ -64,7 +68,7 @@ export PYTHONSTARTUP=~/.pystartup
 #export MDBinDir="/Users/jason/src/monodevelop/main/build/bin"
 #export MDAddinsDir="/Users/jason/src/monodevelop/main/build/AddIns"
 export MONODEVELOP_CONSOLE_LOG_LEVEL=All
-export MONO_ENV_OPTIONS=--arch=64
+# export MONO_ENV_OPTIONS=--arch=64
 export MONODEVELOP_DEV_ADDINS=/Users/jason/src/XSVim/XSVim/bin/Debug/
 #[ -s "/Users/jason/.kre/kvm/kvm.sh" ] && . "/Users/jason/.kre/kvm/kvm.sh" # Load kvm
 
@@ -75,15 +79,19 @@ killit() {
     ps aux | grep -v "grep" | grep -i "$@" | awk '{print $2}' | xargs kill
 }
 
-fake () {
-    mono packages/FAKE/tools/FAKE.exe $1 --fsiargs -d:MONO build.fsx
-}
+# fake () {
+#     mono packages/FAKE/tools/FAKE.exe $1 --fsiargs -d:MONO build.fsx
+# }
 
 vifind () {
     findhere $1 | xargs emacsclient
 }
 
-alias paket='mono .paket/paket.exe'
+batfind () {
+    findhere $1 | xargs bat
+}
+
+# alias paket='mono .paket/paket.exe'
 alias compilerservice='mono ~/src/compilerservice.exe/CompilerService.exe --project'
 alias ma='pushd . && cd ~/src/monodevelop/main/src/core/Mono.Texteditor/ && xbuild /v:q && popd && pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
 alias mt='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild MonoDevelop.FSharp.Tests.fastbuild.fsproj /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'

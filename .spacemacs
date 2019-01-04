@@ -12,7 +12,7 @@
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
-   '(
+   '(html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -33,7 +33,7 @@
      fsharp
      git
      markdown
-     ocaml
+     ;; ocaml
      ;; nixos
      ;; mu4e
      ;; nyan-mode
@@ -42,8 +42,9 @@
      prodigy
      ;; smex
      syntax-checking
+     vinegar
      yaml
-     ;; twittering-mode
+     twitter
      ;; ivy
      ;; version-control
      ;; (colors :variables colors-enable-nyan-cat-progress-bar t)
@@ -53,7 +54,7 @@
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
    ;; dotspacemacs-additional-packages '(csharp-mode shut-up)
-   dotspacemacs-additional-packages '(evil-terminal-cursor-changer)
+   dotspacemacs-additional-packages '(gruvbox-theme)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -93,7 +94,7 @@ before layers configuration."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(gruvbox
+   dotspacemacs-themes '(gruvbox-dark-hard
                          monokai
                          solarized-dark
                          solarized-light
@@ -195,27 +196,28 @@ before layers configuration."
   (load-file "/Users/jason/.emacs.d/private/omnisharp-emacs/extensions/omnisharp-emacs/test/buttercup-tests/setup.el"))
 
 (defun setup-mac-meta-keys ()
-  (spacemacs/toggle-maximize-frame-on)
-  (let ((m window-numbering-keymap))
-    ;; On UK MBP keyboards, META key is used to insert certain characters clear the key
-    (define-key m "\M-0" nil)
-    (define-key m "\M-1" nil)
-    (define-key m "\M-2" nil)
-    (define-key m "\M-3" nil)
-    (define-key m "\M-4" nil)
-    (define-key m "\M-5" nil)
-    (define-key m "\M-6" nil)
-    (define-key m "\M-7" nil)
-    (define-key m "\M-8" nil)
-    (define-key m "\M-9" nil)
+  ;; (spacemacs/toggle-maximize-frame-on)
+  ;; (let ((m window-numbering-keymap))
+  ;;   ;; On UK MBP keyboards, META key is used to insert certain characters clear the key
+  ;;   (define-key m "\M-0" nil)
+  ;;   (define-key m "\M-1" nil)
+  ;;   (define-key m "\M-2" nil)
+  ;;   (define-key m "\M-3" nil)
+  ;;   (define-key m "\M-4" nil)
+  ;;   (define-key m "\M-5" nil)
+  ;;   (define-key m "\M-6" nil)
+  ;;   (define-key m "\M-7" nil)
+  ;;   (define-key m "\M-8" nil)
+  ;;   (define-key m "\M-9" nil)
 
-    ;; http://stackoverflow.com/questions/3977069/emacs-question-hash-key
-    (global-set-key (kbd "M-2") '(lambda () (interactive) (insert "€")))
-    (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-    (define-key isearch-mode-map (kbd "M-3")
-      '(lambda ()
-         (interactive)
-         (isearch-process-search-char ?\#)))))
+  ;;   ;; http://stackoverflow.com/questions/3977069/emacs-question-hash-key
+  ;;   (global-set-key (kbd "M-2") '(lambda () (interactive) (insert "€")))
+  ;;   (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+  ;;   (define-key isearch-mode-map (kbd "M-3")
+  ;;     '(lambda ()
+  ;;        (interactive)
+  ;;        (isearch-process-search-char ?\#)))))
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function.
@@ -471,8 +473,7 @@ on their own line."
 (defun toggle-buffer-tail (name &optional force)
   "toggle tailing of buffer NAME. when called non-interactively, a FORCE arg of 'on' or 'off' can be used to to ensure a given state for buffer NAME"
   (interactive (list (cond ((if name name) (read-from-minibuffer 
-      (concat "buffer name to tail" 
-        (if buffer-tail-alist (concat " (" (caar buffer-tail-alist) ")") "") ": ")
+
     (if buffer-tail-alist (caar buffer-tail-alist)) nil nil
            (mapcar '(lambda (x) (car x)) buffer-tail-alist)
         (if buffer-tail-alist (caar buffer-tail-alist)))) nil)))
@@ -493,25 +494,62 @@ on their own line."
   (save-buffer)
   (revert-buffer t t))
 
+;; ;;(custom-set-variables
+;; ;; ;; custom-set-variables was added by Custom.
+;; ;; ;; If you edit it by hand, you could mess it up, so be careful.
+;; ;; ;; Your init file should contain only one such instance.
+;; ;; ;; If there is more than one, they won't work right.
+;; ;; '(ahs-case-fold-search nil t)
+;; ;; '(ahs-default-range (quote ahs-range-whole-buffer) t)
+;; ;; '(ahs-idle-interval 0.25 t)
+;; ;; '(ahs-idle-timer 0 t)
+;; ;; '(ahs-inhibit-face-list nil t)
+;; ;; '(package-selected-packages
+;; ;;   (quote
+;; ;;    (orgit magit-popup git-commit ghub with-editor zenburn-theme yaml-mode xterm-color ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen utop use-package unfill tuareg toc-org symon string-inflection spaceline solarized-theme smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters prodigy popwin persp-mode pcre2el pbcopy password-generator paradox osx-trash osx-dictionary org-plus-contrib org-bullets open-junk-file omnisharp ocp-indent neotree mwim multi-term move-text monokai-theme mmm-mode merlin markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative link-hint launchctl info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag gruvbox-theme google-translate golden-ratio gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy fsharp-mode flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-terminal-cursor-changer evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks elisp-slime-nav editorconfig dumb-jump company-statistics column-enforce-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+;; ;; '(powerline-default-separator (quote wave))
+;; ;; '(powerline-height 15)
+;; ;; '(ring-bell-function (quote ignore)))
+;; ;;(custom-set-faces
+;; ;; ;; custom-set-faces was added by Custom.
+;; ;; ;; If you edit it by hand, you could mess it up, so be careful.
+;; ;; ;; Your init file should contain only one such instance.
+;; ;; ;; If there is more than one, they won't work right.
+;; ;; '(default ((t (:background "#282828" :foreground "#fdf4c1"))))
+;; ;; '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+;; ;; '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+;; ;; '(powerline-active1 ((t (:inherit mode-line :background "gray28")))))
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(package-selected-packages
+;;    (quote
+;;     (parent-mode request pos-tip treepy graphql with-editor anzu bind-map auto-complete popup twittering-mode yaml-mode xterm-color winum which-key utop use-package tuareg caml toc-org spaceline powerline rainbow-delimiters prodigy persp-mode paradox osx-dictionary org-bullets omnisharp mwim magit-gitflow linum-relative link-hint hydra hl-todo highlight-indentation helm-swoop helm-projectile helm-make projectile helm-flx helm-company gitconfig-mode gitattributes-mode git-timemachine fsharp-mode company-quickhelp flx-ido fill-column-indicator eyebrowse expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit evil-magit eshell-prompt-extras erc-image dumb-jump csharp-mode column-enforce-mode clean-aindent-mode bind-key auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link avy company iedit smartparens highlight f evil goto-chg flycheck epl yasnippet gitignore-mode helm helm-core markdown-mode s org-plus-contrib magit ghub async dash zenburn-theme ws-butler volatile-highlights vi-tilde-fringe uuidgen unfill undo-tree spinner solarized-theme smeargle shut-up shell-pop seq reveal-in-osx-finder restart-emacs popwin pkg-info pcre2el pbcopy osx-trash orgit open-junk-file ocp-indent neotree multi-term move-text monokai-theme mmm-mode merlin markdown-toc magit-popup macrostep lorem-ipsum let-alist launchctl indent-guide hungry-delete highlight-parentheses highlight-numbers helm-themes helm-mode-manager helm-gitignore helm-descbinds helm-c-yasnippet helm-ag gruvbox-theme google-translate golden-ratio git-messenger git-link git-commit gh-md fuzzy flycheck-pos-tip flx fancy-battery evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-terminal-cursor-changer evil-search-highlight-persist evil-numbers evil-mc evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z esh-help erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-hl-nicks elisp-slime-nav diminish company-statistics auto-yasnippet auto-highlight-symbol ace-jump-helm-line ac-ispell))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(default ((t (:background "#282828" :foreground "#fdf4c1")))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ahs-case-fold-search nil)
- '(ahs-default-range (quote ahs-range-whole-buffer))
- '(ahs-idle-interval 0.25)
- '(ahs-idle-timer 0 t)
- '(ahs-inhibit-face-list nil)
- '(powerline-default-separator (quote wave))
- '(powerline-height 15)
- '(ring-bell-function (quote ignore) t))
+ '(package-selected-packages
+   (quote
+    (web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js less-css-mode impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode company-web web-completion-data zenburn-theme yasnippet-snippets yaml-mode xterm-color ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package unfill twittering-mode toc-org symon string-inflection spaceline-all-the-icons solarized-theme smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters prodigy popwin persp-mode pcre2el password-generator paradox overseer osx-trash osx-dictionary org-plus-contrib org-bullets open-junk-file omnisharp neotree nameless mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum linum-relative link-hint launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag gruvbox-theme google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy fsharp-mode font-lock+ flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish counsel-projectile company-statistics column-enforce-mode clean-aindent-mode centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;; '(default ((t (:background "black" :foreground "#fdf4c1"))))
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
- '(powerline-active1 ((t (:inherit mode-line :background "gray28")))))
+ )
+)
