@@ -79,9 +79,10 @@ export MONODEVELOP_CONSOLE_LOG_LEVEL=All
 #export MONODEVELOP_DEV_ADDINS=/Users/jason/src/XSVim/XSVim/bin/Debug/
 export MONODEVELOP_SDB_TEST=1
 export MONO_THREADS_SUSPEND=preemptive
-export PATH=$HOME/.dotnet/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$PATH
-export AZURE_LOCATION=WestEurope
-
+export PATH=$HOME/.dotnet/tools:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
+export PYTHONSTARTUP=~/.pystartup
+export XAMARIN_UPDATER_IGNORE_LOCK=13
+export XAMARIN_UPDATER_TIMEOUT=10000 # The default 
 
 # Save and reload the history after each command finishes
 #alias atom='cd ~/.atom/packages/atom-sharper'
