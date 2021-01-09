@@ -1,6 +1,6 @@
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-    exec tmux
-fi
+#if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#   exec tmux
+#fi
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
@@ -47,13 +47,13 @@ ZSH_THEME="gentoo"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-bindkey '^P' up-history
-bindkey '^N' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward
-bindkey -s '^[3' \#
+# bindkey '^P' up-history
+# bindkey '^N' down-history
+# bindkey '^?' backward-delete-char
+# bindkey '^h' backward-delete-char
+# bindkey '^w' backward-kill-word
+# bindkey '^r' history-incremental-search-backward
+# bindkey -s '^[3' \#
 
 mkcd () {
     mkdir -p "$*"
@@ -61,59 +61,59 @@ mkcd () {
 }
 
 #ctrl-z suspends _and_ resumes
-fancy-ctrl-z () {
-    if [[ $#BUFFER -eq 0 ]]; then
-        fg
-        zle redisplay
-    else
-        zle push-input
-    fi
-}
+# fancy-ctrl-z () {
+#     if [[ $#BUFFER -eq 0 ]]; then
+#         fg
+#         zle redisplay
+#     else
+#         zle push-input
+#     fi
+# }
 
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
+# zle -N fancy-ctrl-z
+# bindkey '^Z' fancy-ctrl-z
 # export MONO_ENV_OPTIONS=--arch=64
 export DISABLE_STETIC=1
 export EDITOR=vim
 export MONODEVELOP_CONSOLE_LOG_LEVEL=All
-export MONODEVELOP_DEV_ADDINS=/Users/jason/src/XSVim/XSVim/bin/Debug/
+#export MONODEVELOP_DEV_ADDINS=/Users/jason/src/XSVim/XSVim/bin/Debug/
 export MONODEVELOP_SDB_TEST=1
 export MONO_THREADS_SUSPEND=preemptive
-export PATH=$HOME/.dotnet/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:$PATH
-export PYTHONSTARTUP=~/.pystartup
-export XAMARIN_UPDATER_IGNORE_LOCK=13
-export XAMARIN_UPDATER_TIMEOUT=10000 # The default 
+export PATH=$HOME/.dotnet/tools:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:./node_modules/.bin:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin:$PATH
+export AZURE_LOCATION=WestEurope
+
 
 # Save and reload the history after each command finishes
 #alias atom='cd ~/.atom/packages/atom-sharper'
 alias ..='cd ..'
 alias ao='git log --date=short --reverse --all --since=3.weeks.ago --author=nosami'
-alias buildfs='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharpBinding && msbuild *.fastbuild.fsproj && popd'
+alias buildfs='pushd . && cd ~/src/vsmac/main/external/fsharpbinding/MonoDevelop.FSharpBinding && msbuild *.fastbuild.fsproj && popd'
 alias cda='cd ~/src/md-addins'
-alias cdf='cd ~/src/monodevelop/main/external/fsharpbinding'
+alias cdf='cd ~/src/vsmac/main/external/fsharpbinding'
 alias cdm='cd ~/src/monodevelop'
+alias cdv='cd ~/src/vsmac'
 alias cdmono='cd /Library/Frameworks/Mono.framework/Versions/Current'
 alias cdmono='cd /Library/Frameworks/Mono.framework/Versions/Current'
-alias cdp='cd ~/src/monodevelop/main/build/AddIns/FSharpBinding/'
+alias cdp='cd ~/src/vsmac/main/build/AddIns/FSharpBinding/'
 alias clean='git clean -xffd'
 alias clone_md_roslyn='git clone git@github.com:mono/monodevelop -b roslyn --recursive && git clone git@github.com:xamarin/md-addins -b roslyn --recursive && (cd monodevelop && ./configure --profile=mac && make) && (cd md-addins && ./configure --profile=mac && make)'
 alias cycle7='MONODEVELOP_DEV_ADDINS=/Users/jason/src/cycle7/monodevelop/main/external/fsharpbinding/bin/ && cd ~/src/cycle7/md-addins && make run'
 alias deletetrailingwhitespace="find . -iname '*.fs*' -type f -exec sed -i '' 's/[[:space:]]\{1,\}$//' {} \+"
 alias e='/Applications/Emacs.app/Contents/MacOS/Emacs'
 alias f='find .  -name'
+alias fd="fd --no-ignore-vcs"
 alias findhere='find . -name'
 alias got='git'
 alias gs='emacsclient -ct --eval "(delete-other-windows) (magit-status)"'
-alias kmd='kill -KILL `pgrep "MonoDevelop|Xamarin|Studio"` && pkill mono'
+alias kmd='kill -KILL `pgrep "MonoDevelop|Xamarin|Studio|mono"` && pkill mono'
 alias kw='pkill Workbook'
 alias l='ls -la'
 alias linkmono64='sudo ln -sf /Library/Frameworks/Mono.framework/Versions/Current/bin/mono64 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono'
 alias ll='ls -la'
 alias ls='ls -G'
 alias master='git checkout master'
-alias mdtool='mono ~/src/monodevelop/main/build/bin/mdtool.exe'
+alias mdtool='mono ~/src/vsmac/main/build/bin/mdtool.exe'
 alias mpv='mpv --ontop'
-alias nunit-console.exe='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias nunit='/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4'
 alias o='mono ~/.vim/bundle/Omnisharp/server/OmniSharp/bin/Debug/OmniSharp.exe'
 alias omni='cd ~/.vim/bundle/Omnisharp/server/OmniSharp'
@@ -173,4 +173,23 @@ installpkg() {
 }
 
 # added by travis gem
-[ -f /Users/jason/.travis/travis.sh ] && source /Users/jason/.travis/travis.sh
+# [ -f /Users/jason/.travis/travis.sh ] && source /Users/jason/.travis/travis.sh
+
+function s() {
+    mdfind -onlyin . $1 | xargs grep  -inH $1
+}
+
+function mono-compile-method {
+    MONO_VERBOSE_METHOD="$1" mono --compile "$1" "$2"
+}
+
+_dotnet_zsh_complete()
+{
+    local completions=("$(dotnet complete "$words")")
+
+    reply=( "${(ps:\n:)completions}" )
+}
+
+compctl -K _dotnet_zsh_complete dotnet
+
+eval $(thefuck --alias)
