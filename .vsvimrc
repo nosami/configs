@@ -1,0 +1,40 @@
+set incsearch
+set hlsearch
+let mapleader=" "
+set cursorline
+set clipboard=unnamed
+set expandtab
+set ignorecase
+set smartcase
+set autoindent
+set backspace=indent,eol,start
+set tabstop=4
+set shiftwidth=4
+
+nnoremap <C-p> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
+nnoremap gu :vsc MonoDevelop.Refactoring.RefactoryCommands.FindReferences <CR>
+nnoremap gh :vsc MonoDevelop.Ide.Commands.TextEditorCommands.ShowQuickInfo <CR>
+nnoremap gb :vsc MonoDevelop.RefactoryCommands.NavigationCommands.FindBaseSymbols <CR>
+nnoremap gi :vsc MonoDevelop.CSharp.Navigation.FindImplementingMembers <CR>
+nnoremap <C-w>o :vsc MonoDevelop.Ide.Commands.FileTabCommands.CloseAllButThis <CR>
+" I prefer default VSMac behaviour of navigating between buffers
+" when navigating backwards and forwards
+nnoremap <C-o> :vsc MonoDevelop.Ide.Commands.NavigationCommands.NavigateBack <CR>
+nnoremap <C-i> :vsc MonoDevelop.Ide.Commands.NavigationCommands.NavigateForward <CR>
+
+" Keys copied from SpaceMacs
+nnoremap <Space>p :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
+nnoremap <Space>fs :vsc MonoDevelop.Ide.Commands.FileCommands.Save <CR>
+
+nmap gs :vsc VsVim.ShowPadByTitle Solution<CR>
+
+" Emacs keys when in insert mode
+inoremap <C-d> MonoDevelop.Ide.Commands.EditCommands.Delete
+inoremap <C-a> MonoDevelop.Ide.Commands.TextEditorCommands.LineStart
+
+""inoremap fd <esc>
+""inoremap jj <esc>
+""inoremap jk <esc>
+""inoremap kk <esc>
+
+set relativenumber
