@@ -32,9 +32,10 @@ nmap gs :vsc VsVim.ShowPadByTitle Solution<CR>
 inoremap <C-d> MonoDevelop.Ide.Commands.EditCommands.Delete
 inoremap <C-a> MonoDevelop.Ide.Commands.TextEditorCommands.LineStart
 
-""inoremap fd <esc>
+inoremap fd <esc>
 ""inoremap jj <esc>
 ""inoremap jk <esc>
 ""inoremap kk <esc>
 
+set number
 set relativenumber
