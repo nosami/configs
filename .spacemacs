@@ -28,7 +28,6 @@
      emacs-lisp
      erc
      ;; eyebrowse
-     csharp
      ;; fsharp-git
      fsharp
      git

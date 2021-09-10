@@ -27,5 +27,6 @@
 	required = true
 [core]
 	pager = cat
+	editor = emacsclient -t -a=\\\"\\\"
 [credential "https://dev.azure.com"]
 	useHttpPath = true
