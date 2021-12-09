@@ -93,6 +93,7 @@ alias cda='cd ~/src/md-addins'
 alias cdf='cd ~/src/vsmac/main/external/fsharpbinding'
 alias cdm='cd ~/src/monodevelop'
 alias cdv='cd ~/src/vsmac'
+alias cdn='cd ~/src/net6'
 alias cdmono='cd /Library/Frameworks/Mono.framework/Versions/Current'
 alias cdmono='cd /Library/Frameworks/Mono.framework/Versions/Current'
 alias cdp='cd ~/src/vsmac/main/build/AddIns/FSharpBinding/'
@@ -147,15 +148,14 @@ killit() {
 # }
 
 vifind () {
-    findhere $1 | xargs emacsclient
+  fd $1 | xargs -o emacsclient -t
 }
 
 batfind () {
-    findhere $1 | xargs bat
+    fd $1 | xargs bat
 }
 
 # alias paket='mono .paket/paket.exe'
-alias compilerservice='mono ~/src/compilerservice.exe/CompilerService.exe --project'
 alias ma='pushd . && cd ~/src/monodevelop/main/src/core/Mono.Texteditor/ && xbuild /v:q && popd && pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
 alias makeupdater="pushd ~/src/md-addins/MacUpdater && xcodebuild -project 'Visual Studio Update.xcodeproj' -alltargets && popd"
 alias mt='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild MonoDevelop.FSharp.Tests.fastbuild.fsproj /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'

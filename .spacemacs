@@ -12,7 +12,9 @@
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
-   '(yaml
+   '(vimscript
+     javascript
+     yaml
      fsharp
      ruby
      fsharp
@@ -499,6 +501,7 @@ on their own line."
   (revert-buffer t t))
 
 (add-to-list 'auto-mode-alist '("\\.fsproj\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.targets" . nxml-mode))
 
 ;; ;;(custom-set-variables
 ;; ;; ;; custom-set-variables was added by Custom.
@@ -549,11 +552,13 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(flycheck-checker-error-threshold 1000)
  '(package-selected-packages
-   '(tern npm-mode nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode counsel-gtags counsel swiper ivy web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js less-css-mode impatient-mode htmlize simple-httpd helm-css-scss haml-mode emmet-mode company-web web-completion-data zenburn-theme yasnippet-snippets yaml-mode xterm-color ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package unfill twittering-mode toc-org symon string-inflection spaceline-all-the-icons solarized-theme smeargle shell-pop reveal-in-osx-finder restart-emacs rainbow-delimiters prodigy popwin persp-mode pcre2el password-generator paradox overseer osx-trash osx-dictionary org-plus-contrib org-bullets open-junk-file omnisharp neotree nameless mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum linum-relative link-hint launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag gruvbox-theme google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy fsharp-mode font-lock+ flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish counsel-projectile company-statistics column-enforce-mode clean-aindent-mode centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-window ace-link ace-jump-helm-line ac-ispell)))
+   '(vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags counsel swiper ivy zenburn-theme yasnippet-snippets yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify vterm volatile-highlights vi-tilde-fringe uuidgen use-package unfill undo-tree twittering-mode treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org terminal-here tagedit symon symbol-overlay string-inflection string-edit spaceline-all-the-icons solarized-theme smeargle slim-mode shell-pop seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe reveal-in-osx-finder restart-emacs request rbenv rake rainbow-delimiters quickrun pug-mode prodigy prettier-js popwin password-generator paradox overseer osx-trash osx-dictionary osx-clipboard org-superstar open-junk-file omnisharp npm-mode nodejs-repl nameless mwim multi-term multi-line monokai-theme mmm-mode minitest markdown-toc macrostep lorem-ipsum livid-mode link-hint launchctl json-reformat json-navigator json-mode js2-refactor js-doc inspector info+ indent-guide impatient-mode hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag gruvbox-theme google-translate golden-ratio gitignore-templates git-timemachine git-modes git-messenger git-link gh-md fuzzy forge font-lock+ flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks emr emmet-mode elisp-slime-nav eglot-fsharp editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish company-web column-enforce-mode clean-aindent-mode chruby centered-cursor-mode bundler auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+)
