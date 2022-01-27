@@ -1,45 +1,49 @@
 if has('vim_starting')
   set nocompatible               " Be iMproved
 
-  " Required:
-
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-" Required:
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+
+if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugged')
 "let g:syntastic_cursor_column = 0
 " Let NeoBundle manage NeoBundle
 " Required:
 
-Plug 'Rip-Rip/clang_complete'
-"Plug 'Shougo/neocomplete'
-Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'featurist/vim-pogoscript'
-Plug 'honza/vim-snippets'
-Plug 'jaxbot/brolink.vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'junegunn/vader.vim'
+"Plug 'Rip-Rip/clang_complete'
+""Plug 'Shougo/neocomplete'
+"Plug 'SirVer/ultisnips'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'christoomey/vim-tmux-navigator'
+"Plug 'featurist/vim-pogoscript'
+"Plug 'honza/vim-snippets'
+"Plug 'jaxbot/brolink.vim'
+"Plug 'jelera/vim-javascript-syntax'
+"Plug 'junegunn/vader.vim'
 Plug 'kien/ctrlp.vim'
-Plug 'maksimr/vim-jsbeautify'
-Plug 'marijnh/tern_for_vim'
-Plug 'laurentgoudet/vim-howdoi'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'nosami/Omnisharp'
-"Plug 'nosami/fsharp-vim'
-Plug 'nosami/molokai'
-Plug 'nosami/tslime.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'rking/ag.vim'
+"Plug 'maksimr/vim-jsbeautify'
+"Plug 'marijnh/tern_for_vim'
+"Plug 'laurentgoudet/vim-howdoi'
+"Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'nosami/Omnisharp'
+""Plug 'nosami/fsharp-vim'
+"Plug 'nosami/molokai'
+"Plug 'nosami/tslime.vim'
+"Plug 'pangloss/vim-javascript'
+"Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-vinegar'
-Plug 'kchmck/vim-coffee-script'
-
+"Plug 'scrooloose/syntastic'
+"Plug 'tpope/vim-dispatch'
+"Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-vinegar'
+"Plug 'kchmck/vim-coffee-script'
+Plug 'morhetz/gruvbox' 
 call plug#end()
 
 let g:clang_library_path = '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib'
@@ -103,7 +107,8 @@ set scrolloff=3                 " minimum lines to keep above and below cursor
 set completeopt=longest,menuone,preview "don't autoselect first item in omnicomplete,show if only one item(for preview)    
 "colorscheme solarized
 let g:molokai_original = 1
-colorscheme molokai
+set background=dark
+colorscheme gruvbox
 set gdefault                    " the /g flag on :s substitutions by default
 set makeprg=build
 set errorformat=\ %#%f(%l\\\,%c):\ %m

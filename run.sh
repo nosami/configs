@@ -1,3 +1,4 @@
+ln -s ~/src/configs/.tmux.conf ~/.tmux.conf
 ln -s ~/src/configs/.spacemacs ~/.spacemacs
 ln -s ~/src/configs/.zshrc ~/.zshrc
 ln -s ~/src/configs/.gitconfig ~/.gitconfig
