@@ -27,10 +27,13 @@ nnoremap <Space>p :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
 nnoremap <Space>fs :vsc MonoDevelop.Ide.Commands.FileCommands.Save <CR>
 
 nmap gs :vsc VsVim.ShowPadByTitle Solution<CR>
+nmap gt :vsc VsVim.ShowPadByTitle Terminal<CR>
 
 " Emacs keys when in insert mode
-inoremap <C-d> MonoDevelop.Ide.Commands.EditCommands.Delete
-inoremap <C-a> MonoDevelop.Ide.Commands.TextEditorCommands.LineStart
+inoremap <C-d> <esc>:vsc MonoDevelop.Ide.Commands.EditCommands.Delete <CR>i
+inoremap <C-a> <esc>:vsc MonoDevelop.Ide.Commands.TextEditorCommands.LineStart <CR>i
+inoremap <C-e> <esc>:vsc MonoDevelop.Ide.Commands.TextEditorCommands.LineEnd <CR>i
+inoremap <C-k> <esc>:vsc MonoDevelop.Ide.Commands.TextEditorCommands.DeleteToLineEnd <CR>i
 
 inoremap fd <esc>
 ""inoremap jj <esc>
