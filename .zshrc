@@ -140,7 +140,7 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # Customize to your needs...
 killit() {
     # Kills any process that matches a regexp passed to it
-    ps aux | grep -v "grep" | grep -i "$@" | awk '{print $2}' | xargs kill
+    ps aux | grep -v "grep" | grep -i "$@" | awk '{print $2}' | xargs kill -KILL
 }
 
 # fake () {

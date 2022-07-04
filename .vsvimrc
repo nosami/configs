@@ -21,6 +21,8 @@ nnoremap <C-w>o :vsc MonoDevelop.Ide.Commands.FileTabCommands.CloseAllButThis <C
 " when navigating backwards and forwards
 nnoremap <C-o> :vsc MonoDevelop.Ide.Commands.NavigationCommands.NavigateBack <CR>
 nnoremap <C-i> :vsc MonoDevelop.Ide.Commands.NavigationCommands.NavigateForward <CR>
+vnoremap <C-o> :vsc MonoDevelop.Ide.Commands.NavigationCommands.NavigateBack <CR>
+vnoremap <C-i> :vsc MonoDevelop.Ide.Commands.NavigationCommands.NavigateForward <CR>
 
 " Keys copied from SpaceMacs
 nnoremap <Space>p :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
