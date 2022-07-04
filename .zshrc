@@ -11,6 +11,8 @@ ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME=agnoster
 
+setopt rmstarsilent
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -90,7 +92,8 @@ alias ..='cd ..'
 alias ao='git log --date=short --reverse --all --since=3.weeks.ago --author=nosami'
 alias buildfs='pushd . && cd ~/src/vsmac/main/external/fsharpbinding/MonoDevelop.FSharpBinding && msbuild *.fastbuild.fsproj && popd'
 alias cda='cd ~/src/md-addins'
-alias cdf='cd ~/src/vsmac/main/external/fsharpbinding'
+alias cdf='cd ~/src/vsmac/main/external/fsharp-editor'
+alias cdfb='cd ~/src/vsmac/main/external/fsharpbinding'
 alias cdm='cd ~/src/monodevelop'
 alias cdv='cd ~/src/vsmac'
 alias cdn='cd ~/src/net6'
@@ -106,13 +109,13 @@ alias f='find .  -name'
 alias fd="fd --no-ignore-vcs"
 alias findhere='find . -name'
 alias got='git'
-alias gs='emacsclient -ct --eval "(delete-other-windows) (magit-status)"'
+alias gs='emacsclient -ct --eval "(magit-status-here)"'
 alias kmd='kill -KILL `pgrep "MonoDevelop|Xamarin|Studio|mono"` && pkill mono'
 alias kw='pkill Workbook'
-alias l='ls -la'
+alias l='exa -lF'
 alias linkmono64='sudo ln -sf /Library/Frameworks/Mono.framework/Versions/Current/bin/mono64 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono'
-alias ll='ls -la'
-alias ls='ls -G'
+alias ll='exa -lFa'
+alias ls='exa'
 alias master='git checkout master'
 alias mdtool='mono ~/src/vsmac/main/build/bin/mdtool.exe'
 alias mpv='mpv --ontop'
@@ -128,6 +131,7 @@ alias run='pushd . && cda && make run && popd'
 alias src='cd ~/src'
 alias theirs='git checkout --theirs'
 alias telemetrymonitor='mono ~/src/telemetry-monitor/VisualStudioTelemetryMonitor.Xwt/bin/Debug/VisualStudioTelemetryMonitor.exe'
+alias tree='exa -T'
 alias updatedb='sudo /usr/libexec/locate.updatedb'
 alias v='vim .'
 alias vi='emacsclient -t'
@@ -161,6 +165,7 @@ alias makeupdater="pushd ~/src/md-addins/MacUpdater && xcodebuild -project 'Visu
 alias mt='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild MonoDevelop.FSharp.Tests.fastbuild.fsproj /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
 alias mp='pushd . && cd ~/src/monodevelop/main/external/fsharpbinding/MonoDevelop.FSharp.Tests/ && xbuild /v:q && popd && mono64 ../../build/bin/mdtool.exe run-md-tests ../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run="MonoDevelopTests.Template tests" && popd'
 alias mm='pushd . && cd ~/src/monodevelop/main/src/addins/MonoDevelop.SourceEditor2 && make && mono64 ../../../build/bin/mdtool.exe run-md-tests ../../../external/fsharpbinding/MonoDevelop.FSharp.Tests/bin/Debug/MonoDevelop.FSharp.Tests.dll -labels -run=MonoDevelopTests.SyntaxHighlighting'
+alias tree='exa -T'
 
 stashgrep() {
   IFS=$'\n'
