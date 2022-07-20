@@ -197,8 +197,8 @@ nnoremap <C-K> :OmniSharpNavigateUp<cr>
 nnoremap <C-J> :OmniSharpNavigateDown<cr>
 
 "show type information automatically when the cursor stops moving
-autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
-autocmd BufEnter,InsertLeave *.cs SyntasticCheck
+"autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+"autocmd BufEnter,InsertLeave *.cs SyntasticCheck
 let g:syntastic_cs_checkers = ['codecheck']
 "autocmd CursorHold *.cs call OmniSharp#GetIssues()
 set updatetime=300
