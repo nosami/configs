@@ -10,8 +10,14 @@ set autoindent
 set backspace=indent,eol,start
 set tabstop=4
 set shiftwidth=4
+set number
+set relativenumber
 
 nnoremap <C-p> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
+nnoremap <C-t> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoType <CR>
+vnoremap <C-p> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
+vnoremap <C-t> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoType <CR>
+
 nnoremap gu :vsc MonoDevelop.Refactoring.RefactoryCommands.FindReferences <CR>
 nnoremap gh :vsc MonoDevelop.Ide.Commands.TextEditorCommands.ShowQuickInfo <CR>
 nnoremap gb :vsc MonoDevelop.RefactoryCommands.NavigationCommands.FindBaseSymbols <CR>
@@ -27,9 +33,35 @@ vnoremap <C-i> :vsc MonoDevelop.Ide.Commands.NavigationCommands.NavigateForward 
 " Keys copied from SpaceMacs
 nnoremap <Space>p :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
 nnoremap <Space>fs :vsc MonoDevelop.Ide.Commands.FileCommands.Save <CR>
+nnoremap <Space>;; :vsc MonoDevelop.Ide.Commands.EditCommands.ToggleCodeComment <CR>
+vnoremap <Space>;; :vsc MonoDevelop.Ide.Commands.EditCommands.ToggleCodeComment <esc><CR>
+nnoremap <Space>'' :vsc Xamarin.Terminal.TerminalCommands.ToggleTerminalPad <CR>
+vnoremap <Space>'' :vsc Xamarin.Terminal.TerminalCommands.ToggleTerminalPad <esc><CR>
 
-nmap gs :vsc VsVim.ShowPadByTitle Solution<CR>
-nmap gt :vsc VsVim.ShowPadByTitle Terminal<CR>
+
+nnoremap gs :vsc VsVim.ShowPadByTitle Solution<CR>
+nnoremap gps :vsc VsVim.ShowPadByTitle Solution<CR>
+nnoremap gpt :vsc VsVim.ShowPadByTitle Terminal<CR>
+nnoremap gpc :vsc VsVim.ShowPadByTitle Call Stack<CR>
+nnoremap gpb :vsc VsVim.ShowPadByTitle Breakpoints<CR>
+nnoremap gpi :vsc VsVim.ShowPadByTitle Immediate<CR>
+nnoremap gpv :vsc VsVim.ShowPadByTitle Vim Output<CR>
+nnoremap gpa :vsc VsVim.ShowPadByTitle Application Output<CR>
+nnoremap gpe :vsc VsVim.ShowPadByTitle Errors<CR>
+nnoremap gpf :vsc VsVim.ShowPadByTitle F# Interactive<CR>
+nnoremap gpg :vsc VsVim.ShowPadByTitle Git Changes<CR>
+
+vnoremap gs :vsc VsVim.ShowPadByTitle Solution<CR>
+vnoremap gps :vsc VsVim.ShowPadByTitle Solution<CR>
+vnoremap gpt :vsc VsVim.ShowPadByTitle Terminal<CR>
+vnoremap gpc :vsc VsVim.ShowPadByTitle Call Stack<CR>
+vnoremap gpb :vsc VsVim.ShowPadByTitle Breakpoints<CR>
+vnoremap gpi :vsc VsVim.ShowPadByTitle Immediate<CR>
+vnoremap gpv :vsc VsVim.ShowPadByTitle Vim Output<CR>
+vnoremap gpa :vsc VsVim.ShowPadByTitle Application Output<CR>
+vnoremap gpe :vsc VsVim.ShowPadByTitle Errors<CR>
+vnoremap gpf :vsc VsVim.ShowPadByTitle F# Interactive<CR>
+vnoremap gpg :vsc VsVim.ShowPadByTitle Git Changes<CR>
 
 " Emacs keys when in insert mode
 inoremap <C-d> <esc>:vsc MonoDevelop.Ide.Commands.EditCommands.Delete <CR>i
@@ -42,5 +74,3 @@ inoremap fd <esc>
 ""inoremap jk <esc>
 ""inoremap kk <esc>
 
-set number
-set relativenumber
