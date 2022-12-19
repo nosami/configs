@@ -15,8 +15,10 @@ set relativenumber
 
 nnoremap <C-p> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
 nnoremap <C-t> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoType <CR>
+nnoremap ≈ :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoCommand <CR>
 vnoremap <C-p> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoFile <CR>
 vnoremap <C-t> :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoType <CR>
+vnoremap ≈ :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoCommand <CR>
 
 nnoremap gu :vsc MonoDevelop.Refactoring.RefactoryCommands.FindReferences <CR>
 nnoremap gh :vsc MonoDevelop.Ide.Commands.TextEditorCommands.ShowQuickInfo <CR>
@@ -37,6 +39,8 @@ nnoremap <Space>;; :vsc MonoDevelop.Ide.Commands.EditCommands.ToggleCodeComment 
 vnoremap <Space>;; :vsc MonoDevelop.Ide.Commands.EditCommands.ToggleCodeComment <esc><CR>
 nnoremap <Space>'' :vsc Xamarin.Terminal.TerminalCommands.ToggleTerminalPad <CR>
 vnoremap <Space>'' :vsc Xamarin.Terminal.TerminalCommands.ToggleTerminalPad <esc><CR>
+nnoremap <Space>tn :csx togglelinenumbers <CR>
+vnoremap <Space>tn :csx togglelinenumbers <esc><CR>
 
 
 nnoremap gs :vsc VsVim.ShowPadByTitle Solution<CR>

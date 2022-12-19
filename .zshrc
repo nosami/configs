@@ -10,6 +10,7 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME=agnoster
+ZSH_THEME=amuse
 
 setopt rmstarsilent
 
@@ -116,6 +117,7 @@ alias l='exa -lF'
 alias linkmono64='sudo ln -sf /Library/Frameworks/Mono.framework/Versions/Current/bin/mono64 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono'
 alias ll='exa -lFa'
 alias ls='exa'
+alias main='git checkout main'
 alias master='git checkout master'
 alias mdtool='mono ~/src/vsmac/main/build/bin/mdtool.exe'
 alias mpv='mpv --ontop'
@@ -140,7 +142,6 @@ alias vspreview='MONODEVELOP_CONSOLE_LOG_LEVEL=All /Applications/Visual\ Studio\
 alias wgetmdpkgs="grep azureedge ~/src/md-addins/bot-provisioning/Make.config | sed 's/.*=//' | xargs wget -nc"
 alias xs='MONODEVELOP_CONSOLE_LOG_LEVEL=All /Applications/Xamarin\ Studio.app/Contents/MacOS/XamarinStudio --no-redirect'
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-
 # Customize to your needs...
 killit() {
     # Kills any process that matches a regexp passed to it
@@ -199,3 +200,4 @@ _dotnet_zsh_complete()
 compctl -K _dotnet_zsh_complete dotnet
 
 #eval $(thefuck --alias)
+# export PROMPT=""
