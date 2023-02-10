@@ -22,8 +22,8 @@ vnoremap ≈ :vsc MonoDevelop.Ide.Commands.SearchCommands.GotoCommand <CR>
 
 nnoremap gu :vsc MonoDevelop.Refactoring.RefactoryCommands.FindReferences <CR>
 nnoremap gh :vsc MonoDevelop.Ide.Commands.TextEditorCommands.ShowQuickInfo <CR>
-nnoremap gb :vsc MonoDevelop.RefactoryCommands.NavigationCommands.FindBaseSymbols <CR>
-nnoremap gi :vsc MonoDevelop.CSharp.Navigation.FindImplementingMembers <CR>
+nnoremap gb :vsc MonoDevelop.Refactoring.Navigate.GotoBaseMember <CR>
+nnoremap gi :vsc MonoDevelop.Refactoring.RefactoryCommands.GotoImplementation <CR>
 nnoremap <C-w>o :vsc MonoDevelop.Ide.Commands.FileTabCommands.CloseAllButThis <CR>
 " I prefer default VSMac behaviour of navigating between buffers
 " when navigating backwards and forwards
