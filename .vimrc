@@ -108,7 +108,7 @@ set errorformat=\ %#%f(%l\\\,%c):\ %m
 set nofoldenable
 if has('balloon_eval')
     set ballooneval
-    set ballondelay=300
+    set balloondelay=300
 endif
 "use insert cursor when in insert mode in terminal
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
