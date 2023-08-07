@@ -129,8 +129,6 @@ let g:OmniSharp_typeLookupInPreview = 0
 set splitbelow 
 inoremap jk <esc>
 inoremap kj <esc>
-vnoremap jk <esc>
-vnoremap kj <esc>
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
@@ -174,21 +172,21 @@ nnoremap <C-b> :wa!<cr>:OmniSharpBuildAsync<cr>
 
 "The following commands are contextual, based on the current cursor position.
 
-nnoremap <F12> :OmniSharpGotoDefinition<cr>
-nnoremap gd :OmniSharpGotoDefinition<cr>
-nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-nnoremap <leader>ft :OmniSharpFindType<cr>
-nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-nnoremap <leader>fu :OmniSharpFindUsages<cr>
-nnoremap <leader>fm :OmniSharpFindMembers<cr>
-nnoremap <leader>x  :OmniSharpFixIssue<cr>
-nnoremap <leader>fx :OmniSharpFixUsings<cr>
-nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-nnoremap <leader>dc :OmniSharpDocumentation<cr>
-
-nnoremap <C-K> :OmniSharpNavigateUp<cr>
-nnoremap <C-J> :OmniSharpNavigateDown<cr>
-
+"nnoremap <F12> :OmniSharpGotoDefinition<cr>
+"nnoremap gd :OmniSharpGotoDefinition<cr>
+"nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+"nnoremap <leader>ft :OmniSharpFindType<cr>
+"nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+"nnoremap <leader>fu :OmniSharpFindUsages<cr>
+"nnoremap <leader>fm :OmniSharpFindMembers<cr>
+"nnoremap <leader>x  :OmniSharpFixIssue<cr>
+"nnoremap <leader>fx :OmniSharpFixUsings<cr>
+"nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+"nnoremap <leader>dc :OmniSharpDocumentation<cr>
+"
+"nnoremap <C-K> :OmniSharpNavigateUp<cr>
+"nnoremap <C-J> :OmniSharpNavigateDown<cr>
+"
 "show type information automatically when the cursor stops moving
 "autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
 "autocmd BufEnter,InsertLeave *.cs SyntasticCheck

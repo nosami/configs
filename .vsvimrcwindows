@@ -1,0 +1,28 @@
+let mapleader=" "
+nmap <C-O> :vsc View.NavigateBackward<CR>
+nmap <C-I> :vsc View.NavigateForward<CR>
+nmap gu :vsc Edit.FindAllReferences<CR>
+nmap gi :vsc Edit.GoToImplementation<CR>
+nmap gb :vsc Edit.GoToBase<CR>
+nmap gn :vsc View.NextError<CR>
+nmap gp :vsc View.PreviousError<CR>
+nmap si :vsc Debug.StepInto<CR>
+nmap so :vsc Debug.StepOver<CR>
+nmap su :vsc Debug.StepOut<CR>
+nmap sc :vsc Debug.Continue<CR>
+nmap <C-P> :vsc Edit.GoToFile<CR>
+
+" copy and paste from system clipboard
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
+" Emacs keys in insert mode
+imap <C-A> <ESC>_i
+imap <C-E> <ESC>$i 
+imap <C-f> <ESC>:vsc Edit.EmacsCharRight<CR>a
+imap <C-b> <ESC>:vsc Edit.EmacsCharLeft<CR>a
+imap <C-k> <ESC>:vsc Edit.EmacsDeleteToEOL<CR>i
