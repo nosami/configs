@@ -101,7 +101,7 @@ set completeopt=longest,menuone,preview "don't autoselect first item in omnicomp
 "colorscheme solarized
 let g:molokai_original = 1
 set background=dark
-colorscheme gruvbox
+:silent! colorscheme gruvbox
 set gdefault                    " the /g flag on :s substitutions by default
 set makeprg=build
 set errorformat=\ %#%f(%l\\\,%c):\ %m
