@@ -117,6 +117,11 @@ if exists('$TMUX')
   let &t_SI = "\<Esc>[3 q"
   let &t_EI = "\<Esc>[0 q"
 endif
+"Windows terminal cursor shapes
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[3 q"
+let &t_EI = "\<Esc>[2 q"
+
 let mapleader=" "
 
 "This is the default value, setting it isn't actually necessary
