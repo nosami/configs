@@ -6,10 +6,22 @@ nmap gi :vsc Edit.GoToImplementation<CR>
 nmap gb :vsc Edit.GoToBase<CR>
 nmap gn :vsc View.NextError<CR>
 nmap gp :vsc View.PreviousError<CR>
+nmap <Leader>i :vsc Debug.StepInto<CR>
+nmap <Leader>o :vsc Debug.StepOver<CR>
+nmap <Leader>u :vsc Debug.StepOut<CR>
+nmap <Leader>c :vsc Debug.Start<CR>:vsc Debug.StartDebugTarget<CR>
+nmap <Leader>b :vsc Debug.ToggleBreakpoint<CR>
+nmap <Leader>r :vsc Debug.ReattachtoProcess<CR>
+nmap <Leader>a :vsc Debug.AttachtoProcess<CR>
+nmap <Leader>s :vsc Debug.StopDebugging<CR>
 nmap si :vsc Debug.StepInto<CR>
 nmap so :vsc Debug.StepOver<CR>
 nmap su :vsc Debug.StepOut<CR>
-nmap sc :vsc Debug.Continue<CR>
+nmap sc :vsc Debug.Start<CR>:vsc Debug.StartDebugTarget<CR>
+nmap sb :vsc Debug.ToggleBreakpoint<CR>
+nmap sr :vsc Debug.ReattachtoProcess<CR>
+nmap sa :vsc Debug.AttachtoProcess<CR>
+nmap ss :vsc Debug.StopDebugging<CR>
 nmap <C-P> :vsc Edit.GoToFile<CR>
 
 " copy and paste from system clipboard
