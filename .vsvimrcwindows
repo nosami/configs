@@ -1,4 +1,19 @@
 let mapleader=" "
+set incsearch
+set hlsearch
+let mapleader=" "
+set cursorline
+set clipboard=unnamed
+set expandtab
+set ignorecase
+set smartcase
+set autoindent
+set backspace=indent,eol,start
+set tabstop=4
+set shiftwidth=4
+set number
+set relativenumber
+
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 nmap gu :vsc Edit.FindAllReferences<CR>
