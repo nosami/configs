@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Setting Name="AttachToProcessFilterText"></Setting>
+  <Setting Name="Component.Microsoft.Ide.VsVim">True</Setting>
+  <Setting Name="Editor.Zoom">90.9090909090909</Setting>
+  <Setting Name="FindInFilesMatchCase">True</Setting>
+  <Setting Name="FindInFilesRecentScope">C:\Repos\Ide</Setting>
+  <Setting Name="FindInFilesUseMultiline">False</Setting>
+  <Setting Name="FindInFilesUseSingleLine">False</Setting>
+  <Setting Name="IgnoreWhitespaceBehavior">None</Setting>
+  <Setting Name="InteractiveConsole.HostPlatform">Desktop32</Setting>
+  <Setting Name="LineNumbers">False</Setting>
+  <Setting Name="MainWindowPosition">2,3,-1,-1,-1,-1,234,370,2880,1511</Setting>
+  <Setting Name="RecentOpenFileLocation">C:\Repos\Ide\src\Microsoft.Ide.VsVim</Setting>
+  <Setting Name="Shell.Theme">Dark</Setting>
+  <Setting Name="Test.Is64Bit">True</Setting>
+</Settings>
