@@ -1,6 +1,6 @@
 [user]
-	name = nosami
-	email = jasonimison@gmail.com
+	name = Jason Imison
+	email = jaimison@microsoft.com
 [color]
 	ui = auto
 [mergetool "fugitive"]
@@ -19,6 +19,7 @@
     sm = submodule update --init --recursive
 [push]
 	default = simple
+	autoSetupRemote = true
 [url "git@github.com:fsharp/xamarin-monodevelop-fsharp-addin.git"]
     pushInsteadOf = git://github.com/fsharp/xamarin-monodevelop-fsharp-addin.git
 [filter "lfs"]
@@ -44,3 +45,10 @@
 
 [diff]
     colorMoved = default
+[guitool "Rebase interactive"]
+    cmd = EDITOR=gvim git rebase -i $REVISION
+    revprompt = yes
+[rerere]
+	enabled = 1
+[init]
+	defaultBranch = main

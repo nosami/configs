@@ -8,7 +8,7 @@ call plug#begin()
 "let g:syntastic_cursor_column = 0
 " Let NeoBundle manage NeoBundle
 " Required:
-
+Plug 'Donaldttt/fuzzyy'
 "Plug 'Rip-Rip/clang_complete'
 ""Plug 'Shougo/neocomplete'
 "Plug 'SirVer/ultisnips'
@@ -18,7 +18,7 @@ call plug#begin()
 "Plug 'honza/vim-snippets'
 "Plug 'jaxbot/brolink.vim'
 "Plug 'jelera/vim-javascript-syntax'
-"Plug 'junegunn/vader.vim'
+""Plug 'junegunn/vader.vim'
 Plug 'kien/ctrlp.vim'
 "Plug 'maksimr/vim-jsbeautify'
 "Plug 'marijnh/tern_for_vim'
@@ -29,8 +29,16 @@ Plug 'kien/ctrlp.vim'
 "Plug 'nosami/molokai'
 "Plug 'nosami/tslime.vim'
 "Plug 'pangloss/vim-javascript'
+<<<<<<< Updated upstream
 Plug 'rking/ag.vim'
 Plug 'scrooloose/nerdcommenter'
+||||||| Stash base
+"Plug 'rking/ag.vim'
+Plug 'scrooloose/nerdcommenter'
+=======
+"Plug 'rking/ag.vim'
+Plug 'preservim/nerdcommenter'
+>>>>>>> Stashed changes
 "Plug 'scrooloose/syntastic'
 "Plug 'tpope/vim-dispatch'
 "Plug 'tpope/vim-fugitive'
@@ -131,9 +139,23 @@ let g:OmniSharp_timeout = 10
 "Set the type lookup function to use the preview window instead of the status line
 let g:OmniSharp_typeLookupInPreview = 0
 "load code documentation at bottom of the screen instead of top
+<<<<<<< Updated upstream
 set splitbelow 
 inoremap jk <esc>
 inoremap kj <esc>
+||||||| Stash base
+set splitbelow 
+inoremap jk <esc>
+inoremap kj <esc>
+vnoremap jk <esc>
+vnoremap kj <esc>
+=======
+"set splitbelow 
+"inoremap jk <esc>
+"inoremap kj <esc>
+"vnoremap jk <esc>
+"vnoremap kj <esc>
+>>>>>>> Stashed changes
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
@@ -166,12 +188,13 @@ let g:agprg="ag --column --ignore-dir=bower_components --ignore-dir=common/js --
 autocmd FileType javascript,pogo setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 
 " OmniSharp
-let g:OmniSharp_server_type = 'v1'
-let g:OmniSharp_server_type = 'roslyn'
-inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
+"let g:OmniSharp_server_type = 'v1'
+"let g:OmniSharp_server_type = 'roslyn'
+"inoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 nnoremap <leader>a :Ag<cword><cr>
 
 " Builds can run asynchronously with vim-dispatch installed
+<<<<<<< Updated upstream
 nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
 nnoremap <C-b> :wa!<cr>:OmniSharpBuildAsync<cr>
 
@@ -192,6 +215,49 @@ nnoremap <C-b> :wa!<cr>:OmniSharpBuildAsync<cr>
 "nnoremap <C-K> :OmniSharpNavigateUp<cr>
 "nnoremap <C-J> :OmniSharpNavigateDown<cr>
 "
+||||||| Stash base
+nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+nnoremap <C-b> :wa!<cr>:OmniSharpBuildAsync<cr>
+
+"The following commands are contextual, based on the current cursor position.
+
+nnoremap <F12> :OmniSharpGotoDefinition<cr>
+nnoremap gd :OmniSharpGotoDefinition<cr>
+nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+nnoremap <leader>ft :OmniSharpFindType<cr>
+nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+nnoremap <leader>fu :OmniSharpFindUsages<cr>
+nnoremap <leader>fm :OmniSharpFindMembers<cr>
+nnoremap <leader>x  :OmniSharpFixIssue<cr>
+nnoremap <leader>fx :OmniSharpFixUsings<cr>
+nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+nnoremap <leader>dc :OmniSharpDocumentation<cr>
+
+nnoremap <C-K> :OmniSharpNavigateUp<cr>
+nnoremap <C-J> :OmniSharpNavigateDown<cr>
+
+=======
+"nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+"nnoremap <C-b> :wa!<cr>:OmniSharpBuildAsync<cr>
+"
+""The following commands are contextual, based on the current cursor position.
+"
+"nnoremap <F12> :OmniSharpGotoDefinition<cr>
+"nnoremap gd :OmniSharpGotoDefinition<cr>
+"nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+"nnoremap <leader>ft :OmniSharpFindType<cr>
+"nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+"nnoremap <leader>fu :OmniSharpFindUsages<cr>
+"nnoremap <leader>fm :OmniSharpFindMembers<cr>
+"nnoremap <leader>x  :OmniSharpFixIssue<cr>
+"nnoremap <leader>fx :OmniSharpFixUsings<cr>
+"nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+"nnoremap <leader>dc :OmniSharpDocumentation<cr>
+"
+"nnoremap <C-K> :OmniSharpNavigateUp<cr>
+"nnoremap <C-J> :OmniSharpNavigateDown<cr>
+
+>>>>>>> Stashed changes
 "show type information automatically when the cursor stops moving
 "autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
 "autocmd BufEnter,InsertLeave *.cs SyntasticCheck
@@ -200,33 +266,33 @@ let g:syntastic_cs_checkers = ['codecheck']
 set updatetime=300
 set cmdheight=1
 "I find contextual code actions so useful that I have it mapped to the spacebar
-nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-" rename with dialog
-nnoremap <leader>nm :OmniSharpRename<cr>
-nnoremap <F2> :OmniSharpRename<cr>      
-" rename without dialog - with cursor on the symbol to rename... ':Rename newname'
-command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
-command! -nargs=1 R :call OmniSharp#RenameTo("<args>")
+"nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
+"vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+"" rename with dialog
+"nnoremap <leader>nm :OmniSharpRename<cr>
+"nnoremap <F2> :OmniSharpRename<cr>      
+"" rename without dialog - with cursor on the symbol to rename... ':Rename newname'
+"command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+"command! -nargs=1 R :call OmniSharp#RenameTo("<args>")
 
-" Force OmniSharp to reload the solution. Useful when switching branches etc.
-nnoremap <leader>rl :OmniSharpReloadSolution<cr>
-nnoremap <leader>cf :OmniSharpCodeFormat<cr>
-" Load the current .cs file to the nearest project
-nnoremap <leader>tp :OmniSharpAddToProject<cr>
+"" Force OmniSharp to reload the solution. Useful when switching branches etc.
+"nnoremap <leader>rl :OmniSharpReloadSolution<cr>
+"nnoremap <leader>cf :OmniSharpCodeFormat<cr>
+"" Load the current .cs file to the nearest project
+"nnoremap <leader>tp :OmniSharpAddToProject<cr>
 
-" Automatically add new cs files to the nearest project on save
-autocmd BufWritePost *.cs call OmniSharp#AddToProject()
-" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-nnoremap <leader>ss :OmniSharpStartServer<cr>
-nnoremap <leader>sp :OmniSharpStopServer<cr>
+"" Automatically add new cs files to the nearest project on save
+"autocmd BufWritePost *.cs call OmniSharp#AddToProject()
+"" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
+"nnoremap <leader>ss :OmniSharpStartServer<cr>
+"nnoremap <leader>sp :OmniSharpStopServer<cr>
 
-" Add syntax highlighting for types and interfaces
-nnoremap <leader>th :OmniSharpHighlightTypes<cr>
-nnoremap <leader>rt :OmniSharpRunTests<cr>
-nnoremap <leader>rf :OmniSharpRunTestFixture<cr>
-nnoremap <leader>ra :OmniSharpRunAllTests<cr>
-nnoremap <leader>rl :OmniSharpRunLastTests<cr>
+"" Add syntax highlighting for types and interfaces
+"nnoremap <leader>th :OmniSharpHighlightTypes<cr>
+"nnoremap <leader>rt :OmniSharpRunTests<cr>
+"nnoremap <leader>rf :OmniSharpRunTestFixture<cr>
+"nnoremap <leader>ra :OmniSharpRunAllTests<cr>
+"nnoremap <leader>rl :OmniSharpRunLastTests<cr>
 
 nnoremap <C-S> :w<cr>
 inoremap <C-S> <esc>:w<cr>
@@ -253,7 +319,7 @@ func! SynStack()
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
-autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+"autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
 "autocmd FileType fs setlocal omnifunc=fsharp#Complete
 ""Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 "" Disable AutoComplPop.
