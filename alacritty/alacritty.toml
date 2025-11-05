@@ -676,7 +676,7 @@ key = "W"
 mods = "Command"
 
 [terminal.shell]
-program = "tmux"
+program = "/usr/local/bin/tmux"
 args = ["new-session", "-A", "-s", "main"]
 
 [colors.bright]
